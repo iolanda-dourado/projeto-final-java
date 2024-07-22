@@ -11,6 +11,7 @@ public class Menu {
         System.out.println("1 - Cadastrar Cliente Final");
         System.out.println("2 - Cadastrar Cliente Revendedor");
         System.out.println("3 - Visualizar Clientes");
+        System.out.println("4 - Atualizar Cliente");
         System.out.println("0 - Sair");
         System.out.println("============================================");
     }

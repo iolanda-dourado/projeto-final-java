@@ -3,10 +3,10 @@ package projeto_tickets;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class GestaoTicketMain {
+public class Main {
     public static void main(String[] args) {
         //lista para nossos clientes e tickets
-        ArrayList<Cliente> clientes = new ArrayList<>();
+        /*ArrayList<Cliente> clientes = new ArrayList<>();
         ArrayList<Ticket> tickets = new ArrayList<>();
 
         //GestaoCliente gestaoCliente = new GestaoCliente(clientes);
@@ -15,9 +15,9 @@ public class GestaoTicketMain {
         Scanner tec = new Scanner(System.in);
 
         //mostra menu
-        //Menu.menuGestaoTickets(tec, gestaoCliente, gestaoTickets);
+        //Menu.menuGestaoTickets(tec, gestaoCliente, gestaoTickets);*/
 
-        tec.close();
+        GestaoCliente.cadastrarClienteGeral();
 
     }
 

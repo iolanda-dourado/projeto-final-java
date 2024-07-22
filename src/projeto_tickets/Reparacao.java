@@ -1,16 +1,16 @@
 package projeto_tickets;
 
-public class Reparacao {
+import java.util.Date;
+
+public class Reparacao extends Ticket {
     private int idOrcamento;
     private int idRelatorio;
 
-
-    public Reparacao(int idOrcamento, int idRelatorio) {
-        super();
-        this.idOrcamento = idOrcamento;
+    public Reparacao(int idReparacao, Date dataInicio, int idCliente, Boolean tipoCliente, String descHistorico, Date dataFim, double valorServicos, double valorPecas, int idRelatorio, int idOrcamento) {
+        super(idReparacao, dataInicio, idCliente, tipoCliente, descHistorico, dataFim, valorServicos, valorPecas);
         this.idRelatorio = idRelatorio;
+        this.idOrcamento = idOrcamento;
     }
-
 
     // Getters e Setters
     public int getIdOrcamento() {

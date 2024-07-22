@@ -2,7 +2,7 @@ package projeto_tickets;
 
 import java.util.Date;
 
-public class Ticket {
+public abstract class Ticket {
     private int idReparacao;
     private Date dataInicio;
     private int idCliente;
