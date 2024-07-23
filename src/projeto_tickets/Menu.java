@@ -20,5 +20,3 @@ public class Menu {
     }
 
 }
-
-ola Mundo
