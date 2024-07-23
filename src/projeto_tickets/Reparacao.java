@@ -6,10 +6,10 @@ public class Reparacao extends Ticket {
     private int idOrcamento;
     private int idRelatorio;
 
-    public Reparacao(int idReparacao, Date dataInicio, int idCliente, Boolean tipoCliente, String descHistorico, Date dataFim, double valorServicos, double valorPecas, int idRelatorio, int idOrcamento) {
+    public Reparacao(int idReparacao, Date dataInicio, int idCliente, String tipoCliente, String descHistorico, Date dataFim, double valorServicos, double valorPecas, int idOrcamento, int idRelatorio) {
         super(idReparacao, dataInicio, idCliente, tipoCliente, descHistorico, dataFim, valorServicos, valorPecas);
-        this.idRelatorio = idRelatorio;
         this.idOrcamento = idOrcamento;
+        this.idRelatorio = idRelatorio;
     }
 
     // Getters e Setters

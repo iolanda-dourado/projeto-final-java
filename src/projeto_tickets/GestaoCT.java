@@ -1,34 +1,54 @@
 package projeto_tickets;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class GestaoCliente {
+public class GestaoCT {
     private static Scanner tec = new Scanner(System.in);
     private static ArrayList<ClienteFinal> clientesFinais = new ArrayList<>();
     private static ArrayList<ClienteRevendedor> clientesRevendedores = new ArrayList<>();
+    private static ArrayList<Ticket> tickets = new ArrayList<>();
 
     // Método para apresentar o menu geral para os dois tipos de clientes e a escolha de opções
     public static void cadastrarClienteGeral() {
         int resposta;
         do {
-            Menu.menuCadastroCliente();
-            System.out.print("Insira sua resposta: ");
+            Menu.menu();
+            System.out.print("Insira sua opção: ");
             resposta = tec.nextInt();
             tec.nextLine();
 
             switch (resposta) {
-                case 1:
+                case 31:
                     cadastrarClienteFinal();
                     break;
-                case 2:
+                case 32:
                     cadastrarClienteRevendedor();
                     break;
-                case 3:
+                case 33:
                     visualizarClientes();
                     break;
-                case 4:
+                case 34:
                     atualizarCliente();
+                    break;
+                case 35:
+                    eliminarClienteID();
+                    break;
+                case 41:
+                    registarTicket();
+                    break;
+                case 42:
+                    alterarDadosTicket();
+                    break;
+                case 43:
+                    consultarTicketID();
+                    break;
+                case 44:
+                    eliminarTicketID();
+                    break;
+                case 45:
+                    consultaParametrizada();
                     break;
                 case 0:
                     System.out.println("Obrigado por utilizar o serviço.");
@@ -90,7 +110,7 @@ public class GestaoCliente {
         }
 
         // Adicionar novo cliente final ao ArrayList
-        System.out.println("Cliente cadastrado com sucesso.");
+        System.out.println("\n----> Cliente final cadastrado com sucesso.\n");
         clientesFinais.add(new ClienteFinal(id, nome, nif, telefone, email, temDesconto, percentagemDesc));
     }
 
@@ -121,14 +141,14 @@ public class GestaoCliente {
         String email = tec.nextLine();
 
         // Adicionar novo cliente revendedor ao ArrayList
-        System.out.println("Cliente cadastrado com sucesso.");
+        System.out.println("\n----> Cliente revendedor cadastrado com sucesso.\n");
         clientesRevendedores.add(new ClienteRevendedor(id, nome, nif, telefone, email, descontoPecas, descontoMaoObra));
     }
 
     // READ
     // Método para visualizar clientes cadastrados
     private static void visualizarClientes() {
-        System.out.println("Clientes Finais cadastrados: ");
+        System.out.println("\nClientes Finais cadastrados: ");
         if (clientesFinais.isEmpty()) {
             System.out.println("Nenhum Cliente Final cadastrado.");
         } else {
@@ -137,7 +157,7 @@ public class GestaoCliente {
             }
         }
 
-        System.out.println("Clientes Revendedores cadastrados: ");
+        System.out.println("\nClientes Revendedores cadastrados: ");
         if (clientesRevendedores.isEmpty()) {
             System.out.println("Nenhum Cliente Revendedor Cadastrado.");
         } else {
@@ -178,7 +198,7 @@ public class GestaoCliente {
                     System.out.print("Insira o email atualizado: ");
                     String email = tec.nextLine();
                     clienteF.setEmail(email);
-                    System.out.println("Dados atualizados com sucesso.");
+                    System.out.println("---> Dados atualizados com sucesso.");
                 }
             }
             if (!clienteEncontrado) {
@@ -211,6 +231,162 @@ public class GestaoCliente {
             if (!clienteEncontrado) {
                 System.out.println("ID de cliente não encontrado.");
             }
+        }
+    }
+
+    // DELETE
+    // Método para eliminar clientes cadastrados por ID
+    private static void eliminarClienteID() {
+        System.out.print("Insira o ID do cliente a ser eliminado: ");
+        int id = tec.nextInt();
+        tec.nextLine();
+
+        boolean clienteEncontrado = false;
+
+        for (int i = 0; i < clientesFinais.size(); i++) {
+            if (clientesFinais.get(i).getId() == id) {
+                clientesFinais.remove(i);
+                clienteEncontrado = true;
+                System.out.println("Cliente final removido com sucesso.");
+                break;
+            }
+        }
+
+        if (!clienteEncontrado) {
+            for (int i = 0; i < clientesRevendedores.size(); i++) {
+                if (clientesRevendedores.get(i).getId() == id) {
+                    clientesRevendedores.remove(i);
+                    clienteEncontrado = true;
+                    System.out.println("Cliente revendedor removido com sucesso.");
+                    break;
+                }
+            }
+        }
+
+        if (!clienteEncontrado) {
+            System.out.println("ID de cliente não encontrado.");
+        }
+    }
+
+    // Métodos para gestão de tickets
+
+    // Método para registrar um novo ticket
+    private static void registarTicket() {
+        System.out.print("Insira o ID do ticket: ");
+        int id = tec.nextInt();
+        tec.nextLine();
+
+        // Verificar se o ID já existe
+        for (Ticket ticket : tickets) {
+            if (ticket.getIdReparacao() == id) {
+                System.out.println("[Erro] ID do ticket já cadastrado. Tente novamente.");
+                return;
+            }
+        }
+
+        System.out.print("Insira a data de início (yyyy-mm-dd): ");
+        String dataInicioStr = tec.next();
+        Date dataInicio = Date.valueOf(dataInicioStr);
+        System.out.print("Insira o ID do cliente: ");
+        int idCliente = tec.nextInt();
+        tec.nextLine();
+        System.out.print("Insira o tipo de cliente (Final/Revendedor): ");
+        String tipoCliente = tec.nextLine();
+        System.out.print("Insira a descrição do histórico: ");
+        String descHistorico = tec.nextLine();
+        System.out.print("Insira a data de fim (yyyy-mm-dd): ");
+        String dataFimStr = tec.next();
+        Date dataFim = Date.valueOf(dataFimStr);
+        System.out.print("Insira o valor dos serviços: ");
+        double valorServicos = tec.nextDouble();
+        tec.nextLine();
+        System.out.print("Insira o valor das peças: ");
+        double valorPecas = tec.nextDouble();
+        tec.nextLine();
+
+        tickets.add(new Ticket(id, dataInicio, idCliente, tipoCliente, descHistorico, dataFim, valorServicos, valorPecas));
+        System.out.println("Ticket registrado com sucesso.");
+    }
+
+    // Método para alterar dados de um ticket existente
+    private static void alterarDadosTicket() {
+        System.out.print("Insira o ID do ticket a ser alterado: ");
+        int id = tec.nextInt();
+        tec.nextLine();
+        boolean ticketEncontrado = false;
+
+        for (Ticket ticket : tickets) {
+            if (ticket.getIdReparacao() == id) {
+                System.out.print("Insira a nova descrição do histórico: ");
+                String novoHistorico = tec.nextLine();
+                ticket.setDescHistorico(novoHistorico);
+                ticketEncontrado = true;
+                System.out.println("Dados do ticket alterados com sucesso.");
+                break;
+            }
+        }
+
+        if (!ticketEncontrado) {
+            System.out.println("ID do ticket não encontrado.");
+        }
+    }
+
+    // Método para consultar um ticket por ID
+    private static void consultarTicketID() {
+        System.out.print("Insira o ID do ticket a ser consultado: ");
+        int id = tec.nextInt();
+        tec.nextLine();
+        boolean ticketEncontrado = false;
+
+        for (Ticket ticket : tickets) {
+            if (ticket.getIdReparacao() == id) {
+                System.out.println(ticket);
+                ticketEncontrado = true;
+                break;
+            }
+        }
+
+        if (!ticketEncontrado) {
+            System.out.println("ID do ticket não encontrado.");
+        }
+    }
+
+    // Método para eliminar um ticket por ID
+    private static void eliminarTicketID() {
+        System.out.print("Insira o ID do ticket a ser eliminado: ");
+        int id = tec.nextInt();
+        tec.nextLine();
+        boolean ticketEncontrado = false;
+
+        for (int i = 0; i < tickets.size(); i++) {
+            if (tickets.get(i).getIdReparacao() == id) {
+                tickets.remove(i);
+                ticketEncontrado = true;
+                System.out.println("Ticket removido com sucesso.");
+                break;
+            }
+        }
+
+        if (!ticketEncontrado) {
+            System.out.println("ID do ticket não encontrado.");
+        }
+    }
+
+    // Método para consulta parametrizada (exemplo: consultar tickets por tipo de cliente)
+    private static void consultaParametrizada() {
+        System.out.print("Insira o tipo de cliente para consulta (Final/Revendedor): ");
+        String tipoCliente = tec.nextLine();
+        boolean ticketEncontrado = false;
+
+        for (Ticket ticket : tickets) {
+            if (ticket.getTipoCliente().equalsIgnoreCase(tipoCliente)) {
+                System.out.println(ticket);
+                ticketEncontrado = true;
+            }
+        }
+
+        if (!ticketEncontrado) {
+            System.out.println("Nenhum ticket encontrado para o tipo de cliente especificado.");
         }
     }
 }

@@ -8,15 +8,15 @@ public class Relatorio {
     private String email;
 
     // Construtor
+
+
     public Relatorio(int idApolice, String companhiaSeguro, String cobertura, double contato, String email) {
-        super();
         this.idApolice = idApolice;
         this.companhiaSeguro = companhiaSeguro;
         this.cobertura = cobertura;
         this.contato = contato;
         this.email = email;
     }
-
 
     // Getters e Setters
     public int getIdApolice() {

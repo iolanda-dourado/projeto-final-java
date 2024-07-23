@@ -1,8 +1,5 @@
 package projeto_tickets;
 
-import java.util.ArrayList;
-import java.util.Scanner;
-
 public class Main {
     public static void main(String[] args) {
         //lista para nossos clientes e tickets
@@ -17,7 +14,7 @@ public class Main {
         //mostra menu
         //Menu.menuGestaoTickets(tec, gestaoCliente, gestaoTickets);*/
 
-        GestaoCliente.cadastrarClienteGeral();
+        GestaoCT.cadastrarClienteGeral();
 
     }
 

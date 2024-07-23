@@ -26,14 +26,12 @@ public class ClienteFinal extends Cliente {
 
     @Override
     public String toString() {
-        return "Cliente Final {" +
-                "ID=" + getId() +
-                ", Nome='" + getNome() + '\'' +
-                ", NIF='" + getNif() + '\'' +
-                ", Telefone='" + getTelefone() + '\'' +
-                ", Email='" + getEmail() + '\'' +
-                ", Tem Desconto=" + (temDesc ? "Sim" : "Não") +
-                ", Percentagem de Desconto=" + percentagemDesconto + "%" +
-                '}';
+        return "ID: " + getId() +
+                "| Nome: '" + getNome() + '\'' +
+                "| NIF: '" + getNif() + '\'' +
+                "| Telefone: '" + getTelefone() + '\'' +
+                "| Email: '" + getEmail() + '\'' +
+                "| Tem Desconto: " + (temDesc ? "Sim" : "Não") +
+                "| Percentagem de Desconto: " + percentagemDesconto + "%\n";
     }
 }

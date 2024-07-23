@@ -28,6 +28,6 @@ public class ClienteRevendedor extends Cliente {
 
     @Override
     public String toString() {
-        return "Cliente Revendedor {ID=" + getId() + " | Nome='" + getNome() + '\'' + " | NIF='" + "Telefone='" + getTelefone() + " | Email='" + getEmail() + " | Desconto em Peças=" + descontoPecas * 100 + "%" + " | Desconto em Mão de Obra=" + descontoMaoObra * 100 + "%}";
+        return "ID: " + getId() + " | Nome: '" + getNome() + " | NIF: '" + "Telefone: '" + getTelefone() + " | Email: '" + getEmail() + " | Desconto em Peças: " + descontoPecas * 100 + "%" + " | Desconto em Mão de Obra: " + descontoMaoObra * 100 + "%\n";
     }
 }

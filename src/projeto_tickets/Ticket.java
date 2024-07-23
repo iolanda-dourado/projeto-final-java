@@ -2,11 +2,11 @@ package projeto_tickets;
 
 import java.util.Date;
 
-public abstract class Ticket {
+public class Ticket {
     private int idReparacao;
     private Date dataInicio;
     private int idCliente;
-    private Boolean tipoCliente;
+    private String tipoCliente;
     private String descHistorico;
     private Date dataFim;
     private double valorServicos;
@@ -14,8 +14,7 @@ public abstract class Ticket {
 
 
     // Construtor
-    public Ticket(int idReparacao, Date dataInicio, int idCliente, Boolean tipoCliente, String descHistorico,
-                  Date dataFim, double valorServicos, double valorPecas) {
+    public Ticket(int idReparacao, Date dataInicio, int idCliente, String tipoCliente, String descHistorico, Date dataFim, double valorServicos, double valorPecas) {
         super();
         this.idReparacao = idReparacao;
         this.dataInicio = dataInicio;
@@ -48,10 +47,10 @@ public abstract class Ticket {
     public void setIdCliente(int idCliente) {
         this.idCliente = idCliente;
     }
-    public Boolean getTipoCliente() {
+    public String getTipoCliente() {
         return tipoCliente;
     }
-    public void setTipoCliente(Boolean tipoCliente) {
+    public void setTipoCliente(String tipoCliente) {
         this.tipoCliente = tipoCliente;
     }
     public String getDescHistorico() {
