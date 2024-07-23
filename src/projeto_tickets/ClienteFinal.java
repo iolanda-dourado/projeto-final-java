@@ -14,24 +14,23 @@ public class ClienteFinal extends Cliente {
     public boolean isTemDesc() {
         return temDesc;
     }
+
     public void setTemDesc(boolean temDesc) {
         this.temDesc = temDesc;
     }
+
     public double getPercentagemDesconto() {
         return percentagemDesconto;
     }
+
     public void setPercentagemDesconto(double percentagemDesconto) {
         this.percentagemDesconto = percentagemDesconto;
     }
 
     @Override
     public String toString() {
-        return "ID: " + getId() +
-                "| Nome: '" + getNome() + '\'' +
-                "| NIF: '" + getNif() + '\'' +
-                "| Telefone: '" + getTelefone() + '\'' +
-                "| Email: '" + getEmail() + '\'' +
-                "| Tem Desconto: " + (temDesc ? "Sim" : "Não") +
-                "| Percentagem de Desconto: " + percentagemDesconto + "%\n";
+        return String.format("%-13s | %-5s | %-25s | %-11s | %-13s | %-30s | %-15s | %-20s | %-20s",
+                "Final", getId(), getNome(), getNif(), getTelefone(), getEmail(),
+                "0", "0", percentagemDesconto);
     }
 }

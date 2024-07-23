@@ -14,7 +14,7 @@ public class Main {
         //mostra menu
         //Menu.menuGestaoTickets(tec, gestaoCliente, gestaoTickets);*/
 
-        GestaoCT.cadastrarClienteGeral();
+        GestaoCT.menuGerenciamento();
 
     }
 

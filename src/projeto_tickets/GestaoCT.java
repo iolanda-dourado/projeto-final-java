@@ -1,17 +1,15 @@
 package projeto_tickets;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class GestaoCT {
     private static Scanner tec = new Scanner(System.in);
-    private static ArrayList<ClienteFinal> clientesFinais = new ArrayList<>();
-    private static ArrayList<ClienteRevendedor> clientesRevendedores = new ArrayList<>();
+    private static ArrayList<Cliente> clientes = new ArrayList<>();
     private static ArrayList<Ticket> tickets = new ArrayList<>();
 
     // Método para apresentar o menu geral para os dois tipos de clientes e a escolha de opções
-    public static void cadastrarClienteGeral() {
+    public static void menuGerenciamento() {
         int resposta;
         do {
             Menu.menu();
@@ -21,21 +19,21 @@ public class GestaoCT {
 
             switch (resposta) {
                 case 31:
-                    cadastrarClienteFinal();
+                    cadastrarCliente("final");
                     break;
                 case 32:
-                    cadastrarClienteRevendedor();
+                    cadastrarCliente("revendedor");
                     break;
                 case 33:
                     visualizarClientes();
                     break;
                 case 34:
-                    atualizarCliente();
+                    atualizarClientePorID();
                     break;
                 case 35:
                     eliminarClienteID();
                     break;
-                case 41:
+                /*case 41:
                     registarTicket();
                     break;
                 case 42:
@@ -49,7 +47,7 @@ public class GestaoCT {
                     break;
                 case 45:
                     consultaParametrizada();
-                    break;
+                    break;*/
                 case 0:
                     System.out.println("Obrigado por utilizar o serviço.");
                     break;
@@ -61,14 +59,14 @@ public class GestaoCT {
     }
 
     // CREATE
-    // Método para cadastrar Cliente Final
-    private static void cadastrarClienteFinal() {
+    // Método para cadastrar Cliente
+    private static void cadastrarCliente(String tipo) {
         System.out.print("Insira o ID: ");
         int id = tec.nextInt();
         tec.nextLine();
 
         // Verificar se o ID já existe
-        for (ClienteFinal cliente : clientesFinais) {
+        for (Cliente cliente : clientes) {
             if (cliente.getId() == id) {
                 System.out.println("[Erro] ID já cadastrado. Tente novamente.");
                 return;
@@ -85,156 +83,97 @@ public class GestaoCT {
         System.out.print("Insira o email: ");
         String email = tec.nextLine();
 
-        // Verifica se o cliente tem desconto
-        char primeiraLetra;
-        do {
-            System.out.print("O cliente final tem desconto? [S/N]: ");
-            String desconto = tec.nextLine().trim().toUpperCase();
-            primeiraLetra = desconto.isEmpty() ? ' ' : desconto.charAt(0); // Verifica se a string não está vazia
-
-            if (primeiraLetra != 'S' && primeiraLetra != 'N') {
-                System.out.print("[Erro] Insira uma opção válida: S/N.");
-            }
-        } while (primeiraLetra != 'S' && primeiraLetra != 'N');
-
-        // Verifica qual é a porcentagem do desconto
-        boolean temDesconto = false;
-        double percentagemDesc = 0;
-        if (primeiraLetra == 'S') {
-            temDesconto = true;
+        if (tipo.equals("final")) {
+            // Verifica se o cliente tem desconto
+            char primeiraLetra;
             do {
-                System.out.print("Qual a porcentagem do desconto? (Máximo 5%): ");
-                percentagemDesc = tec.nextDouble();
-                tec.nextLine();
-            } while (percentagemDesc > 5 || percentagemDesc < 0);
-        }
+                System.out.print("O cliente final tem desconto? [S/N]: ");
+                String desconto = tec.nextLine().trim().toUpperCase();
+                primeiraLetra = desconto.isEmpty() ? ' ' : desconto.charAt(0); // Verifica se a string não está vazia
 
-        // Adicionar novo cliente final ao ArrayList
-        System.out.println("\n----> Cliente final cadastrado com sucesso.\n");
-        clientesFinais.add(new ClienteFinal(id, nome, nif, telefone, email, temDesconto, percentagemDesc));
-    }
+                if (primeiraLetra != 'S' && primeiraLetra != 'N') {
+                    System.out.println("[Erro] Insira uma opção válida: S/N.");
+                }
+            } while (primeiraLetra != 'S' && primeiraLetra != 'N');
 
-    // Método para cadastrar Cliente Revendedor
-    private static void cadastrarClienteRevendedor() {
-        double descontoPecas = 0.20;
-        double descontoMaoObra = 0.10;
-        System.out.print("Insira o ID: ");
-        int id = tec.nextInt();
-        tec.nextLine();
+            // Verifica qual é a porcentagem do desconto
+            boolean temDesconto = false;
+            double percentagemDesc = 0;
+            if (primeiraLetra == 'S') {
+                temDesconto = true;
+                do {
+                    System.out.print("Qual a porcentagem do desconto? (Maior que 0 e até 5): ");
+                    percentagemDesc = tec.nextDouble();
+                    tec.nextLine();
 
-        // Verificar se o ID já existe
-        for (ClienteRevendedor cliente : clientesRevendedores) {
-            if (cliente.getId() == id) {
-                System.out.println("[Erro] ID já cadastrado. Tente novamente.");
-                return;
+                    if (percentagemDesc > 5 || percentagemDesc <= 0) {
+                        System.out.println("[Erro] Insira um valor maior que 0 e até 5.");
+                    }
+                } while (percentagemDesc > 5 || percentagemDesc <= 0);
             }
+
+            // Adicionar novo cliente final ao ArrayList
+            System.out.println("\n----> Cliente final cadastrado com sucesso.");
+            clientes.add(new ClienteFinal(id, nome, nif, telefone, email, temDesconto, percentagemDesc));
+        } else if (tipo.equals("revendedor")) {
+            double descontoPecas = 0.20;
+            double descontoMaoObra = 0.10;
+            // Adicionar novo cliente revendedor ao ArrayList
+            System.out.println("\n----> Cliente revendedor cadastrado com sucesso.");
+            clientes.add(new ClienteRevendedor(id, nome, nif, telefone, email, descontoMaoObra, descontoPecas));
         }
-
-        // Pedir os dados ao utilizador
-        System.out.print("Insira o nome completo: ");
-        String nome = tec.nextLine();
-        System.out.print("Insira o NIF: ");
-        String nif = tec.nextLine();
-        System.out.print("Insira o telefone: ");
-        String telefone = tec.nextLine();
-        System.out.print("Insira o email: ");
-        String email = tec.nextLine();
-
-        // Adicionar novo cliente revendedor ao ArrayList
-        System.out.println("\n----> Cliente revendedor cadastrado com sucesso.\n");
-        clientesRevendedores.add(new ClienteRevendedor(id, nome, nif, telefone, email, descontoPecas, descontoMaoObra));
     }
+
 
     // READ
     // Método para visualizar clientes cadastrados
     private static void visualizarClientes() {
-        System.out.println("\nClientes Finais cadastrados: ");
-        if (clientesFinais.isEmpty()) {
-            System.out.println("Nenhum Cliente Final cadastrado.");
+        System.out.println("\nLista de Clientes");
+        if (clientes.isEmpty()) {
+            System.out.println("Nenhum cliente cadastrado.");
         } else {
-            for (ClienteFinal clienteF : clientesFinais) {
-                System.out.println(clienteF);
-            }
-        }
-
-        System.out.println("\nClientes Revendedores cadastrados: ");
-        if (clientesRevendedores.isEmpty()) {
-            System.out.println("Nenhum Cliente Revendedor Cadastrado.");
-        } else {
-            for (ClienteRevendedor clienteR : clientesRevendedores) {
-                System.out.println(clienteR);
+            System.out.printf("%-13s | %-5s | %-25s | %-11s | %-13s | %-30s | %-15s | %-20s | %-20s%n", "Tipo Cliente", "ID", "Nome", "NIF", "Telefone", "Email", "% Desc. Peças", "% Desc. Mão Obra", "% Desc. Pronto Pgto");
+            for (Cliente cliente : clientes) {
+                System.out.println(cliente);
             }
         }
     }
+
 
     // UPDATE
     // Método para atualizar os clientes cadastrados
-    private static void atualizarCliente() {
-        int tipoCliente;
-        do {
-            System.out.print("Qual o tipo de cliente a ser atualizado? (1-Cliente Final ou 2-Cliente Revendedor): ");
-            tipoCliente = tec.nextInt();
-            tec.nextLine();
-        } while (tipoCliente != 1 && tipoCliente != 2);
+    private static void atualizarClientePorID() {
+        System.out.print("Insira o ID do cliente para atualizar os dados: ");
+        int id = tec.nextInt();
+        tec.nextLine();
 
-        if (tipoCliente == 1) {
-            boolean clienteEncontrado = false;
-            System.out.print("Insira o ID do cliente para atualizar os dados: ");
-            int id = tec.nextInt();
-            tec.nextLine();
+        Cliente clienteEncontrado = null;
+        for (Cliente cliente : clientes) {
+            if (cliente.getId() == id) {
+                clienteEncontrado = cliente;
+                break;
+            }
+        }
 
-            for (ClienteFinal clienteF : clientesFinais) {
-                if (clienteF.getId() == id) {
-                    clienteEncontrado = true;
-                    System.out.print("Insira o nome atualizado: ");
-                    String nome = tec.nextLine();
-                    clienteF.setNome(nome);
-                    System.out.print("Insira o NIF atualizado: ");
-                    String nif = tec.nextLine();
-                    clienteF.setNif(nif);
-                    System.out.print("Insira o telefone atualizado: ");
-                    String telefone = tec.nextLine();
-                    clienteF.setTelefone(telefone);
-                    System.out.print("Insira o email atualizado: ");
-                    String email = tec.nextLine();
-                    clienteF.setEmail(email);
-                    System.out.println("---> Dados atualizados com sucesso.");
-                }
-            }
-            if (!clienteEncontrado) {
-                System.out.println("ID de cliente não encontrado.");
-            }
+        if (clienteEncontrado != null) {
+            System.out.print("Insira o nome atualizado: ");
+            String nome = tec.nextLine();
+            clienteEncontrado.setNome(nome);
+            System.out.print("Insira o NIF atualizado: ");
+            String nif = tec.nextLine();
+            clienteEncontrado.setNif(nif);
+            System.out.print("Insira o telefone atualizado: ");
+            String telefone = tec.nextLine();
+            clienteEncontrado.setTelefone(telefone);
+            System.out.print("Insira o email atualizado: ");
+            String email = tec.nextLine();
+            clienteEncontrado.setEmail(email);
+            System.out.println("---> Dados atualizados com sucesso.");
         } else {
-            boolean clienteEncontrado = false;
-            System.out.print("Insira o ID do cliente para atualizar os dados: ");
-            int id = tec.nextInt();
-            tec.nextLine();
-
-            for (ClienteRevendedor clienteR : clientesRevendedores) {
-                if (clienteR.getId() == id) {
-                    clienteEncontrado = true;
-                    System.out.print("Insira o nome atualizado: ");
-                    String nome = tec.nextLine();
-                    clienteR.setNome(nome);
-                    System.out.print("Insira o NIF atualizado: ");
-                    String nif = tec.nextLine();
-                    clienteR.setNif(nif);
-                    System.out.print("Insira o telefone atualizado: ");
-                    String telefone = tec.nextLine();
-                    clienteR.setTelefone(telefone);
-                    System.out.print("Insira o email atualizado: ");
-                    String email = tec.nextLine();
-                    clienteR.setEmail(email);
-                    System.out.println("Dados atualizados com sucesso.");
-                }
-            }
-            if (!clienteEncontrado) {
-                System.out.println("ID de cliente não encontrado.");
-            }
+            System.out.println("ID de cliente não encontrado.");
         }
     }
 
-    // DELETE
     // Método para eliminar clientes cadastrados por ID
     private static void eliminarClienteID() {
         System.out.print("Insira o ID do cliente a ser eliminado: ");
@@ -242,24 +181,12 @@ public class GestaoCT {
         tec.nextLine();
 
         boolean clienteEncontrado = false;
-
-        for (int i = 0; i < clientesFinais.size(); i++) {
-            if (clientesFinais.get(i).getId() == id) {
-                clientesFinais.remove(i);
+        for (int i = 0; i < clientes.size(); i++) {
+            if (clientes.get(i).getId() == id) {
+                clientes.remove(i);
                 clienteEncontrado = true;
-                System.out.println("Cliente final removido com sucesso.");
+                System.out.println("Cliente removido com sucesso.");
                 break;
-            }
-        }
-
-        if (!clienteEncontrado) {
-            for (int i = 0; i < clientesRevendedores.size(); i++) {
-                if (clientesRevendedores.get(i).getId() == id) {
-                    clientesRevendedores.remove(i);
-                    clienteEncontrado = true;
-                    System.out.println("Cliente revendedor removido com sucesso.");
-                    break;
-                }
             }
         }
 
@@ -267,8 +194,9 @@ public class GestaoCT {
             System.out.println("ID de cliente não encontrado.");
         }
     }
-
-    // Métodos para gestão de tickets
+}
+/*
+// Métodos para gestão de tickets
 
     // Método para registrar um novo ticket
     private static void registarTicket() {
@@ -390,3 +318,4 @@ public class GestaoCT {
         }
     }
 }
+*/
