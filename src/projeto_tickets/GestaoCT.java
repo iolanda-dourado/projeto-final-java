@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
+import java.io.*;
 
 public class GestaoCT {
     private static Scanner tec = new Scanner(System.in);
@@ -23,63 +24,69 @@ public class GestaoCT {
 
             switch (resposta) {
                 // CLIENTES
-                case 31:
+                case 11:
                     cadastrarCliente("final");
                     break;
-                case 32:
+                case 12:
                     cadastrarCliente("revendedor");
                     break;
-                case 33:
+                case 13:
                     alterarClientePorID();
                     break;
-                case 34:
+                case 14:
                     consultarClienteID();
                     break;
-                case 35:
+                case 15:
                     consultarClientesTodos();
                     break;
-                case 36:
+                case 16:
+                    consultaParametrizada();
+                    break;
+                case 17:
                     consultarClientesTicketAberto();
                     break;
-                case 37:
+                case 18:
                     consultarClientesPorLetra();
                     break;
-                case 38:
+                case 19:
                     consultarClientesPorTipo();
                     break;
-                case 39:
+                case 20:
                     eliminarClientePorID();
                     break;
 
                 // TICKETS
-                case 41:
+                case 31:
                     registarTicket();
                     break;
-                case 42:
+                case 32:
                     alterarTicketPorID();
                     break;
-                case 43:
+                case 33:
                     consultarTicketPorID();
                     break;
-                case 44:
+                case 34:
                     consultarTicketsTodos();
                     break;
-                case 45:
+                case 35:
+                    consultaParametrizada();
+                    break;
+                case 36:
                     consultarTicketsPorTipo();
                     break;
-                case 46:
-                    consultarTicketsPorDatas();
+                case 37:
+                    consultarPorData();
                     break;
-                case 47:
+                case 38:
                     consultarTicketsPorTipoCliente();
                     break;
-                case 48:
+                case 39:
                     consultarTicketsPorVencimento();
                     break;
-                case 49:
+                case 40:
                     transformarEstadoTicket();
                     break;
-                case 50:
+                case 41:
                     eliminarTicketPorID();
                     break;
                 case 0:
@@ -93,17 +100,18 @@ public class GestaoCT {
     }
 
 
+
     /**************************************************
      ********* MÉTODOS PARA GESTÃO DE CLIENTES ********
      **************************************************/
 
-    // 31 e 32 - Cadastrar Cliente Final ou Revendedor
+    // 11 e 12 - Cadastrar Cliente Final ou Revendedor
     private static void cadastrarCliente(String tipo) {
         System.out.print("Insira o ID: ");
         int id = tec.nextInt();
         tec.nextLine();
 
-        // Verificar se o ID já existe
+        // Verifica se o ID já existe
         for (Cliente cliente : clientes) {
             if (cliente.getId() == id) {
                 System.out.println("[Erro] ID já cadastrado. Tente novamente.");
@@ -366,4 +374,49 @@ public class GestaoCT {
             System.out.println("ID do ticket não encontrado.");
         }
     }
+
+
+    // Backup dos clientes
+    public static void gravaClientes(ArrayList<Cliente> clientes, String nomeFicheiro) {
+        File f = new File(nomeFicheiro);
+        try {
+            f.createNewFile();              //Criar novo ficheiro
+            ObjectOutputStream ficheiro = new ObjectOutputStream(new FileOutputStream(nomeFicheiro));
+            ficheiro.writeObject(clientes); // Escrever o arrayList no ficheiro
+            System.out.println("Backup de clientes executado com sucesso ");
+            System.out.println("no ficheiro: " + f.getAbsolutePath());
+            ficheiro.flush();
+            ficheiro.close();
+        } catch (IOException e) {
+            e.printStackTrace();            // Se a operação der erro mostra o erro...
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public static ArrayList<Cliente> lerClientes(String nomeFicheiro) {
+        ArrayList<Cliente> clientes = new ArrayList<>();
+        File ficheiro = new File(nomeFicheiro);
+        if (!ficheiro.exists())
+            ficheiro = new File(nomeFicheiro);
+        else {
+            ObjectInputStream f;
+            try {
+                f = new ObjectInputStream(new FileInputStream(nomeFicheiro));
+                clientes = (ArrayList<Cliente>) f.readObject();
+                System.out.println("Restaudo de dados realizado com sucesso.");
+            } catch (IOException e) {
+                System.out.println("Ficheiro: " + ficheiro.getAbsolutePath());
+                e.printStackTrace();            // Se a operação der erro mostra o erro...
+            } catch (ClassNotFoundException e) {
+                System.out.println("Ficheiro: " + ficheiro.getAbsolutePath());
+                e.printStackTrace();            // Se a operação der erro mostra o erro...
+            }
+
+        }
+        return clientes;
+    }
 }
+
+
+
+

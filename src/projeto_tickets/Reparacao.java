@@ -1,8 +1,10 @@
 package projeto_tickets;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Reparacao extends Ticket {
+public class Reparacao extends Ticket implements Serializable {
+    private static final long serialVersionUID = 1L;
     private int idOrcamento;
     private int idRelatorio;
 

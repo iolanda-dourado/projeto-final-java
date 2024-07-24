@@ -1,8 +1,10 @@
 package projeto_tickets;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Ticket {
+public class Ticket implements Serializable {
+    private static final long serialVersionUID = 1L; // Indentificador da versão para serialização
     private int idReparacao;
     private Date dataInicio;
     private int idCliente;

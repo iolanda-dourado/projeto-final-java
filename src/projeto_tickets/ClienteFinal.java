@@ -1,6 +1,9 @@
 package projeto_tickets;
 
-public class ClienteFinal extends Cliente {
+import java.io.Serializable;
+
+public class ClienteFinal extends Cliente implements Serializable {
+    private static final long serialVersionUID = 1L;
     private boolean temDesc;
     private double percentagemDesconto;
 

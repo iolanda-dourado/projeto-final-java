@@ -1,15 +1,17 @@
 package projeto_tickets;
 
-public class Relatorio {
+import java.io.Serializable;
+
+public class Relatorio implements Serializable {
+    private static final long serialVersionUID = 1L;
     private int idApolice;
     private String companhiaSeguro;
     private String cobertura;
     private double contato;
     private String email;
 
+
     // Construtor
-
-
     public Relatorio(int idApolice, String companhiaSeguro, String cobertura, double contato, String email) {
         this.idApolice = idApolice;
         this.companhiaSeguro = companhiaSeguro;

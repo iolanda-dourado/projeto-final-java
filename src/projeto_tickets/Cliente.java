@@ -1,12 +1,16 @@
 package projeto_tickets;
 
-public abstract class Cliente {
+import java.io.Serializable;
+
+public abstract class Cliente implements Serializable {
+    private static final long serialVersionUID = 1L; // Indentificador da versão para serialização
     private int id;
     private String nome;
     private String nif;
     private String telefone;
     private String email;
 
+    // Construtor para a classe Cliente
     public Cliente(int id, String nome, String nif, String telefone, String email) {
         super();
         this.id = id;
@@ -16,6 +20,7 @@ public abstract class Cliente {
         this.email = email;
     }
 
+    // Getters e Setters
     public int getId() {
         return id;
     }
@@ -46,6 +51,8 @@ public abstract class Cliente {
     public void setEmail(String email) {
         this.email = email;
     }
+
+
 
 
 }
