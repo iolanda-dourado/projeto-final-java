@@ -1,8 +1,9 @@
 package modelo;
 
 import java.io.Serializable;
+import java.util.Date;
 
-public class Relatorio implements Serializable {
+public class Relatorio extends Ticket implements Serializable {
     private static final long serialVersionUID = 1L;
     private int idApolice;
     private String companhiaSeguro;
@@ -12,12 +13,15 @@ public class Relatorio implements Serializable {
 
 
     // Construtor
-    public Relatorio(int idApolice, String companhiaSeguro, String cobertura, double contato, String email) {
-        this.idApolice = idApolice;
-        this.companhiaSeguro = companhiaSeguro;
-        this.cobertura = cobertura;
-        this.contato = contato;
+
+
+    public Relatorio(int idReparacao, Date dataInicio, int idCliente, String tipoCliente, String descHistorico, Date dataFim, double valorServicos, double valorPecas, String email, double contato, String cobertura, String companhiaSeguro, int idApolice) {
+        super(idReparacao, dataInicio, idCliente, tipoCliente, descHistorico, dataFim, valorServicos, valorPecas);
         this.email = email;
+        this.contato = contato;
+        this.cobertura = cobertura;
+        this.companhiaSeguro = companhiaSeguro;
+        this.idApolice = idApolice;
     }
 
     // Getters e Setters

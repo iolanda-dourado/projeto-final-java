@@ -5,7 +5,7 @@ import java.util.Date;
 
 public class Ticket implements Serializable {
     private static final long serialVersionUID = 1L; // Indentificador da versão para serialização
-    private int idReparacao;
+    private int idTicket;
     private Date dataInicio;
     private int idCliente;
     private String tipoCliente;
@@ -18,7 +18,7 @@ public class Ticket implements Serializable {
     // Construtor
     public Ticket(int idReparacao, Date dataInicio, int idCliente, String tipoCliente, String descHistorico, Date dataFim, double valorServicos, double valorPecas) {
         super();
-        this.idReparacao = idReparacao;
+        this.idTicket = idReparacao;
         this.dataInicio = dataInicio;
         this.idCliente = idCliente;
         this.tipoCliente = tipoCliente;
@@ -30,12 +30,12 @@ public class Ticket implements Serializable {
 
 
     // Getters e Setters
-    public int getIdReparacao() {
-        return idReparacao;
+    public int getIdTicket() {
+        return idTicket;
     }
 
-    public void setIdReparacao(int idReparacao) {
-        this.idReparacao = idReparacao;
+    public void setIdTicket(int idTicket) {
+        this.idTicket = idTicket;
     }
     public Date getDataInicio() {
         return dataInicio;
@@ -84,6 +84,6 @@ public class Ticket implements Serializable {
     @Override
     public String toString() {
         return String.format("ID Reparação: %d | Cliente: [%s] | Data Início: %s | Data Fim: %s | Histórico: %s | Valor Serviços: %.2f | Valor Peças: %.2f",
-                idReparacao, tipoCliente, dataInicio, dataFim, descHistorico, valorServicos, valorPecas);
+                idTicket, tipoCliente, dataInicio, dataFim, descHistorico, valorServicos, valorPecas);
     }
 }

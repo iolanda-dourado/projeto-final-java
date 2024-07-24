@@ -75,7 +75,7 @@ public class GestaoCT {
                     //consultarPorData();
                     break;
                 case 37:
-                    //consultarTicketsAbertos();
+                    consultarTicketsAbertos();
                     break;
                 case 38:
                     //consultarTicketsFinalizados();
@@ -105,7 +105,7 @@ public class GestaoCT {
     // 11 e 12 - Cadastrar Cliente Final ou Revendedor
     private static void cadastrarCliente(String tipo) {
         System.out.print("Insira o ID: ");
-        int id = Functions.lerInteiro();
+        int id = Functions.recebeInteiro();
 
         // Verifica se o ID já existe
         for (Cliente cliente : clientes) {
@@ -170,7 +170,7 @@ public class GestaoCT {
     // 13 - Alterar cliente cadastrado pelo ID
     private static void alterarClientePorID() {
         System.out.print("Insira o ID do cliente: ");
-        int id = Functions.lerInteiro();
+        int id = Functions.recebeInteiro();
 
         Cliente clienteEncontrado = null;
         for (Cliente cliente : clientes) {
@@ -203,7 +203,7 @@ public class GestaoCT {
     // 14 - Consultar cliente por ID
     private static void consultarClientePorID() {
         System.out.print("Insira o ID do cliente: ");
-        int id = Functions.lerInteiro();
+        int id = Functions.recebeInteiro();
 
         boolean clienteEncontrado = false;
         Menu.imprimeCabecalhoClientes();
@@ -292,13 +292,16 @@ public class GestaoCT {
     }
 
 
-    // 17 - Consultar Clientes com Ticket em aberto **************************************
+    // 17 - Consultar Clientes com Ticket abertos
+
+
+    // 17 - Consultar Clientes com Tickets fechados
 
 
     // 18 - Eliminar cliente por ID
     private static void eliminarClientePorID() {
         System.out.print("Insira o ID do cliente:");
-        int id = Functions.lerInteiro();
+        int id = Functions.recebeInteiro();
 
         boolean clienteEncontrado = false;
         for (int i = 0; i < clientes.size(); i++) {
@@ -323,44 +326,36 @@ public class GestaoCT {
     // 31 - Registar um novo ticket
     private static void registarTicket() {
         System.out.print("Insira o ID do ticket: ");
-        int id = Functions.lerInteiro();
+        int id = Functions.recebeInteiro();
 
         // Verificar se o ID já existe
         for (Ticket ticket : tickets) {
-            if (ticket.getIdReparacao() == id) {
+            if (ticket.getIdTicket() == id) {
                 System.out.println("[Erro] ID do ticket já cadastrado. Tente novamente.");
                 return;
             }
         }
 
         // Leitura e conversão das datas
-        Date dataInicio = null;
-        Date dataFim = null;
-        try {
-            System.out.print("Insira a data de início (yyyy-MM-dd): ");
-            String dataInicioStr = tec.nextLine();
-            dataInicio = dateFormat.parse(dataInicioStr);
+        System.out.print("Insira a data de início (yyyy-MM-dd): ");
+        Date dataInicio = Functions.recebeData();
 
-            System.out.print("Insira a data de fim (yyyy-MM-dd): ");
-            String dataFimStr = tec.nextLine();
-            dataFim = dateFormat.parse(dataFimStr);
-        } catch (ParseException e) {
-            System.out.println("[Erro] Formato de data inválido. Certifique-se de usar o formato yyyy-mm-dd.");
-            return;
-        }
+        System.out.print("Insira a data de fim (yyyy-MM-dd): ");
+        Date dataFim = Functions.recebeData();
+
+        //System.out.println("Data de Início: " + dataInicio);
+        //System.out.println("Data de Fim: " + dataFim);
 
         System.out.print("Insira o ID do cliente: ");
-        int idCliente = Functions.lerInteiro();
+        int idCliente = Functions.recebeInteiro();
         System.out.print("Insira o tipo de cliente (Final/Revendedor): ");
         String tipoCliente = tec.nextLine();
         System.out.print("Insira a descrição do histórico: ");
         String descHistorico = tec.nextLine();
         System.out.print("Insira o valor dos serviços: ");
-        double valorServicos = tec.nextDouble();
-        tec.nextLine();
+        double valorServicos = Functions.recebeDouble();
         System.out.print("Insira o valor das peças: ");
-        double valorPecas = tec.nextDouble();
-        tec.nextLine();
+        double valorPecas = Functions.recebeDouble();
 
         tickets.add(new Ticket(id, dataInicio, idCliente, tipoCliente, descHistorico, dataFim, valorServicos, valorPecas));
         System.out.println("Ticket registrado com sucesso.");
@@ -370,11 +365,11 @@ public class GestaoCT {
     // 32 - Alterar dados de um ticket por ID
     private static void alterarTicketPorID() {
         System.out.print("Insira o ID do ticket: ");
-        int id = Functions.lerInteiro();
+        int id = Functions.recebeInteiro();
         boolean ticketEncontrado = false;
 
         for (Ticket ticket : tickets) {
-            if (ticket.getIdReparacao() == id) {
+            if (ticket.getIdTicket() == id) {
                 System.out.print("Insira a nova descrição do histórico: ");
                 String novoHistorico = tec.nextLine();
                 ticket.setDescHistorico(novoHistorico);
@@ -393,12 +388,12 @@ public class GestaoCT {
     // 33 - Consultar um ticket por ID
     private static void consultarTicketPorID() {
         System.out.print("Insira o ID do ticket: ");
-        int id = Functions.lerInteiro();
+        int id = Functions.recebeInteiro();
 
         boolean ticketEncontrado = false;
 
         for (Ticket ticket : tickets) {
-            if (ticket.getIdReparacao() == id) {
+            if (ticket.getIdTicket() == id) {
                 System.out.println(ticket);
                 ticketEncontrado = true;
                 break;
@@ -427,7 +422,13 @@ public class GestaoCT {
     // por ID inicial ao ID final, por tipo de ticket (Orç, Rel, Rep), por letra inicial a letra final, por tipo de cliente (F, R)
 
 
-    // 36 - Consulta de tickets em aberto ******************************************
+    // 36 - Consulta de tickets em aberto
+    private static void consultarTicketsAbertos() {
+        for (Ticket ticket : tickets) {
+            Menu.imprimeCabecalhoTickets();
+            System.out.println(ticket);
+        }
+    }
 
 
     // 37 - Consulta de tickets finalizados ******************************************
@@ -439,12 +440,12 @@ public class GestaoCT {
     // 39 - Eliminar um ticket por ID
     private static void eliminarTicketPorID() {
         System.out.print("Insira o ID do ticket: ");
-        int id = Functions.lerInteiro();
+        int id = Functions.recebeInteiro();
 
         boolean ticketEncontrado = false;
 
         for (int i = 0; i < tickets.size(); i++) {
-            if (tickets.get(i).getIdReparacao() == id) {
+            if (tickets.get(i).getIdTicket() == id) {
                 tickets.remove(i);
                 ticketEncontrado = true;
                 System.out.println("Ticket removido com sucesso.");
