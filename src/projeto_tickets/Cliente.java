@@ -52,7 +52,10 @@ public abstract class Cliente implements Serializable {
         this.email = email;
     }
 
-
+    @Override
+    public String toString(){
+        return String.format("ID %d | Nome: %s | NIF: %s | Telefone: %s | Email: %s", id, nome, nif, telefone, email);
+    }
 
 
 }

@@ -80,11 +80,10 @@ public class Ticket implements Serializable {
         this.valorPecas = valorPecas;
     }
 
-    // toString
+
     @Override
     public String toString() {
-        return "projeto5413.Ticket [idReparacao=" + idReparacao + ", dataInicio=" + dataInicio + ", idCliente=" + idCliente
-                + ", tipoCliente=" + tipoCliente + ", descHistorico=" + descHistorico + ", dataFim=" + dataFim
-                + ", valorServicos=" + valorServicos + ", valorPecas=" + valorPecas + "]";
+        return String.format("ID Reparação: %d | Cliente: [%s] | Data Início: %s | Data Fim: %s | Histórico: %s | Valor Serviços: %.2f | Valor Peças: %.2f",
+                idReparacao, tipoCliente, dataInicio, dataFim, descHistorico, valorServicos, valorPecas);
     }
 }

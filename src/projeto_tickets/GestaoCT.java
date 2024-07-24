@@ -46,12 +46,6 @@ public class GestaoCT {
                     consultarClientesTicketAberto();
                     break;
                 case 18:
-                    consultarClientesPorLetra();
-                    break;
-                case 19:
-                    consultarClientesPorTipo();
-                    break;
-                case 20:
                     eliminarClientePorID();
                     break;
 
@@ -66,27 +60,24 @@ public class GestaoCT {
                     consultarTicketPorID();
                     break;
                 case 34:
-                    consultarTicketsTodos();
+                    //consultarTicketsTodos();
                     break;
                 case 35:
                     consultaParametrizada();
                     break;
                 case 36:
-                    consultarTicketsPorTipo();
+                    //consultarPorData();
                     break;
                 case 37:
-                    consultarPorData();
+                    //consultarTicketsAbertos();
                     break;
                 case 38:
-                    consultarTicketsPorTipoCliente();
+                    //consultarTicketsFinalizados();
                     break;
                 case 39:
-                    consultarTicketsPorVencimento();
+                    //transformarEstadoTicket(); // Ex: transformar em relatório, orçamento, reparação
                     break;
                 case 40:
-                    transformarEstadoTicket();
-                    break;
-                case 41:
                     eliminarTicketPorID();
                     break;
                 case 0:
@@ -98,7 +89,6 @@ public class GestaoCT {
             }
         } while (resposta != 0);
     }
-
 
 
     /**************************************************
@@ -171,7 +161,7 @@ public class GestaoCT {
     }
 
 
-    // 33 - Alterar cliente cadastrado pelo ID
+    // 13 - Alterar cliente cadastrado pelo ID
     private static void alterarClientePorID() {
         System.out.print("Insira o ID do cliente para atualizar os dados: ");
         int id = tec.nextInt();
@@ -205,22 +195,98 @@ public class GestaoCT {
     }
 
 
-    // 35 - Consultar todos os clientes cadastrados
+    // 14 - Consultar cliente por ID
+    private static void consultarClienteID() {
+        System.out.print("Insira o ID do cliente para consultar: ");
+        int id = tec.nextInt();
+        tec.nextLine();
+
+        boolean clienteEncontrado = false;
+        for (Cliente cliente : clientes) {
+            if (cliente.getId() == id) {
+                System.out.println(cliente);
+                clienteEncontrado = true;
+                break;
+            }
+        }
+
+        if (!clienteEncontrado) {
+            System.out.println("Cliente com ID " + id + " não encontrado.");
+        }
+    }
+
+    // 15 - Consultar todos os clientes cadastrados
     private static void consultarClientesTodos() {
         System.out.println("\nLista de Clientes");
         if (clientes.isEmpty()) {
             System.out.println("Nenhum cliente cadastrado.");
         } else {
-            System.out.printf("%-13s | %-5s | %-25s | %-11s | %-13s | %-30s | %-15s | %-20s | %-20s%n", "Tipo Cliente", "ID", "Nome", "NIF", "Telefone", "Email", "% Desc. Peças", "% Desc. Mão Obra", "% Desc. Pronto Pgto");
+            Functions.imprimeCabecalhoClientes();
             for (Cliente cliente : clientes) {
                 System.out.println(cliente);
             }
         }
     }
 
-    // 39 - Eliminar clientes cadastrados por ID
+
+    // 16 - Consulta parametrizada
+    // por ID inicial ao ID final, por tipo de cliente (F, R), por letra inicial a letra final
+    private static void consultaParametrizada() {
+        System.out.print("Do ID: ");
+        int idInicial = tec.nextInt();
+        tec.nextLine();
+        System.out.print("Ao ID: ");
+        int idFinal = tec.nextInt();
+        tec.nextLine();
+
+        char tipo;
+        do {
+            System.out.println("R - Revendedores \nF - Finais \nT - Todos");
+            System.out.print("Tipo: ");
+            tipo = tec.nextLine().trim().toUpperCase().charAt(0);
+        } while (tipo != 'R' && tipo != 'F' && tipo != 'T');
+
+        System.out.print("Da letra: ");
+        char letraInicial = tec.nextLine().trim().toUpperCase().charAt(0);
+        System.out.print("Até a letra: ");
+        char letraFinal = tec.nextLine().trim().toUpperCase().charAt(0);
+
+        Functions.imprimeCabecalhoClientes();
+
+        for (Cliente cliente : clientes) {
+            if (cliente.getId() >= idInicial && cliente.getId() <= idFinal) {
+                boolean deveImprimir = false;
+                switch (tipo) {
+                    case 'F':
+                        if (cliente instanceof ClienteFinal) {
+                            deveImprimir = true;
+                        }
+                        break;
+                    case 'R':
+                        if (cliente instanceof ClienteRevendedor) {
+                            deveImprimir = true;
+                        }
+                        break;
+                    case 'T':
+                        deveImprimir = true;
+                        break;
+                }
+            }
+
+        }
+    }
+
+
+    // 17 - Consultar Clientes com Ticket em aberto
+    private static void consultarClientesTicketAberto() {
+
+    }
+
+
+// 18 - Eliminar clientes cadastrados por ID
+    //System.out.print("Insira o ID do cliente a ser eliminado: ");
+
     private static void eliminarClientePorID() {
-        System.out.print("Insira o ID do cliente a ser eliminado: ");
         int id = tec.nextInt();
         tec.nextLine();
 
@@ -240,9 +306,11 @@ public class GestaoCT {
     }
 
 
-// ------------ MÉTODOS PARA GESTÃO DE TICKETS ------------
+    /**************************************************
+     ********* MÉTODOS PARA GESTÃO DE TICKETS ********
+     **************************************************/
 
-    // 41 - Registar um novo ticket
+// 41 - Registar um novo ticket
     private static void registarTicket() {
         System.out.print("Insira o ID do ticket: ");
         int id = tec.nextInt();

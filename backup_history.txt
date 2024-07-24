@@ -1,0 +1,2 @@
+Wed Jul 24 12:38:58 WEST 2024 - Backup realizado com sucesso. Dados salvos em: Iolanda_Manuel_Backup.dat
+Wed Jul 24 12:38:58 WEST 2024 - Restauração de dados realizada com sucesso. Dados restaurados de: Iolanda_Manuel_Backup.dat

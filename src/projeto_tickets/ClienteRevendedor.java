@@ -33,6 +33,6 @@ public class ClienteRevendedor extends Cliente implements Serializable {
     public String toString() {
         return String.format("%-13s | %-5s | %-25s | %-11s | %-13s | %-30s | %-15.2f | %-20s | %-20s",
                 "Revendedor", getId(), getNome(), getNif(), getTelefone(), getEmail(),
-                getDescontoPecas() * 100, getDescontoMaoObra() * 100, "0");
+                getDescontoPecas() * 100, getDescontoMaoObra() * 100, "0.0");
     }
 }
