@@ -34,7 +34,7 @@ public class GestaoCT {
                     alterarClientePorID();
                     break;
                 case 14:
-                    consultarClienteID();
+                    consultarClientePorID();
                     break;
                 case 15:
                     consultarClientesTodos();
@@ -98,8 +98,7 @@ public class GestaoCT {
     // 11 e 12 - Cadastrar Cliente Final ou Revendedor
     private static void cadastrarCliente(String tipo) {
         System.out.print("Insira o ID: ");
-        int id = tec.nextInt();
-        tec.nextLine();
+        int id = Functions.lerInteiro();
 
         // Verifica se o ID já existe
         for (Cliente cliente : clientes) {
@@ -163,9 +162,8 @@ public class GestaoCT {
 
     // 13 - Alterar cliente cadastrado pelo ID
     private static void alterarClientePorID() {
-        System.out.print("Insira o ID do cliente para atualizar os dados: ");
-        int id = tec.nextInt();
-        tec.nextLine();
+        System.out.print("Insira o ID do cliente: ");
+        int id = Functions.lerInteiro();
 
         Cliente clienteEncontrado = null;
         for (Cliente cliente : clientes) {
@@ -196,12 +194,12 @@ public class GestaoCT {
 
 
     // 14 - Consultar cliente por ID
-    private static void consultarClienteID() {
-        System.out.print("Insira o ID do cliente para consultar: ");
-        int id = tec.nextInt();
-        tec.nextLine();
+    private static void consultarClientePorID() {
+        System.out.print("Insira o ID do cliente: ");
+        int id = Functions.lerInteiro();
 
         boolean clienteEncontrado = false;
+        Functions.imprimeCabecalhoClientes();
         for (Cliente cliente : clientes) {
             if (cliente.getId() == id) {
                 System.out.println(cliente);
@@ -253,9 +251,12 @@ public class GestaoCT {
 
         Functions.imprimeCabecalhoClientes();
 
+        // Processando e imprimindo os clientes que atendem aos critérios
         for (Cliente cliente : clientes) {
             if (cliente.getId() >= idInicial && cliente.getId() <= idFinal) {
                 boolean deveImprimir = false;
+
+                // Verificando o tipo de cliente
                 switch (tipo) {
                     case 'F':
                         if (cliente instanceof ClienteFinal) {
@@ -271,8 +272,16 @@ public class GestaoCT {
                         deveImprimir = true;
                         break;
                 }
-            }
 
+                // Verificando o intervalo de letras
+                if (deveImprimir) {
+                    char letraCliente = cliente.getNome().trim().toUpperCase().charAt(0);
+                    if (letraCliente >= letraInicial && letraCliente <= letraFinal) {
+                        System.out.println(cliente);
+                        ;
+                    }
+                }
+            }
         }
     }
 
@@ -284,11 +293,9 @@ public class GestaoCT {
 
 
 // 18 - Eliminar clientes cadastrados por ID
-    //System.out.print("Insira o ID do cliente a ser eliminado: ");
-
     private static void eliminarClientePorID() {
-        int id = tec.nextInt();
-        tec.nextLine();
+        System.out.print("Insira o ID do cliente:");
+        int id = Functions.lerInteiro();
 
         boolean clienteEncontrado = false;
         for (int i = 0; i < clientes.size(); i++) {
@@ -313,8 +320,7 @@ public class GestaoCT {
 // 41 - Registar um novo ticket
     private static void registarTicket() {
         System.out.print("Insira o ID do ticket: ");
-        int id = tec.nextInt();
-        tec.nextLine();
+        int id = Functions.lerInteiro();
 
         // Verificar se o ID já existe
         for (Ticket ticket : tickets) {
@@ -341,8 +347,7 @@ public class GestaoCT {
         }
 
         System.out.print("Insira o ID do cliente: ");
-        int idCliente = tec.nextInt();
-        tec.nextLine();
+        int idCliente = Functions.lerInteiro();
         System.out.print("Insira o tipo de cliente (Final/Revendedor): ");
         String tipoCliente = tec.nextLine();
         System.out.print("Insira a descrição do histórico: ");
@@ -361,9 +366,8 @@ public class GestaoCT {
 
     // 42 - Alterar dados de um ticket por ID
     private static void alterarTicketPorID() {
-        System.out.print("Insira o ID do ticket a ser alterado: ");
-        int id = tec.nextInt();
-        tec.nextLine();
+        System.out.print("Insira o ID do ticket: ");
+        int id = Functions.lerInteiro();
         boolean ticketEncontrado = false;
 
         for (Ticket ticket : tickets) {
@@ -385,9 +389,9 @@ public class GestaoCT {
 
     // 43 - Consultar um ticket por ID
     private static void consultarTicketPorID() {
-        System.out.print("Insira o ID do ticket a ser consultado: ");
-        int id = tec.nextInt();
-        tec.nextLine();
+        System.out.print("Insira o ID do ticket: ");
+        int id = Functions.lerInteiro();
+
         boolean ticketEncontrado = false;
 
         for (Ticket ticket : tickets) {
@@ -424,9 +428,9 @@ public class GestaoCT {
 
     // 50 - Eliminar um ticket por ID
     private static void eliminarTicketPorID() {
-        System.out.print("Insira o ID do ticket a ser eliminado: ");
-        int id = tec.nextInt();
-        tec.nextLine();
+        System.out.print("Insira o ID do ticket: ");
+        int id = Functions.lerInteiro();
+
         boolean ticketEncontrado = false;
 
         for (int i = 0; i < tickets.size(); i++) {
