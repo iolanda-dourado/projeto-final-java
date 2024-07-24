@@ -1,16 +1,10 @@
-package projeto_tickets;
+package controle;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Functions {
     private static Scanner tec = new Scanner(System.in);
-
-    // Método para imprimir o cabeçalho dos clientes
-    public static void imprimeCabecalhoClientes() {
-        System.out.printf("%-13s | %-5s | %-25s | %-11s | %-13s | %-30s | %-15s | %-20s | %-20s%n",
-                "Tipo Cliente", "ID", "Nome", "NIF", "Telefone", "Email", "% Desc. Peças", "% Desc. Mão Obra", "% Desc. Pronto Pgto");
-    }
 
     public static int lerInteiro() {
         while (true) {

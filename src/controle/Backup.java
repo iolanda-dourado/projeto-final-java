@@ -1,4 +1,7 @@
-package projeto_tickets;
+package controle;
+
+import modelo.Cliente;
+import modelo.Ticket;
 
 import java.io.*;
 import java.util.ArrayList;

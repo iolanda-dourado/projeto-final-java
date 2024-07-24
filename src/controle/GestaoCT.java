@@ -1,4 +1,10 @@
-package projeto_tickets;
+package controle;
+
+import modelo.Cliente;
+import modelo.ClienteFinal;
+import modelo.ClienteRevendedor;
+import modelo.Ticket;
+import visualizacao.Menu;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -43,7 +49,7 @@ public class GestaoCT {
                     consultaParametrizada();
                     break;
                 case 17:
-                    consultarClientesTicketAberto();
+                    //consultarClientesTicketAberto();
                     break;
                 case 18:
                     eliminarClientePorID();
@@ -60,7 +66,7 @@ public class GestaoCT {
                     consultarTicketPorID();
                     break;
                 case 34:
-                    //consultarTicketsTodos();
+                    consultarTicketsTodos();
                     break;
                 case 35:
                     consultaParametrizada();
@@ -82,6 +88,7 @@ public class GestaoCT {
                     break;
                 case 0:
                     System.out.println("Obrigado por utilizar o serviço.");
+                    System.out.println("BACKUP FEITO COM SUCESSO!");
                     break;
                 default:
                     System.out.println("[Erro] Insira uma opção válida.");
@@ -199,7 +206,7 @@ public class GestaoCT {
         int id = Functions.lerInteiro();
 
         boolean clienteEncontrado = false;
-        Functions.imprimeCabecalhoClientes();
+        Menu.imprimeCabecalhoClientes();
         for (Cliente cliente : clientes) {
             if (cliente.getId() == id) {
                 System.out.println(cliente);
@@ -215,11 +222,10 @@ public class GestaoCT {
 
     // 15 - Consultar todos os clientes cadastrados
     private static void consultarClientesTodos() {
-        System.out.println("\nLista de Clientes");
         if (clientes.isEmpty()) {
             System.out.println("Nenhum cliente cadastrado.");
         } else {
-            Functions.imprimeCabecalhoClientes();
+            Menu.imprimeCabecalhoClientes();
             for (Cliente cliente : clientes) {
                 System.out.println(cliente);
             }
@@ -249,7 +255,7 @@ public class GestaoCT {
         System.out.print("Até a letra: ");
         char letraFinal = tec.nextLine().trim().toUpperCase().charAt(0);
 
-        Functions.imprimeCabecalhoClientes();
+        Menu.imprimeCabecalhoClientes();
 
         // Processando e imprimindo os clientes que atendem aos critérios
         for (Cliente cliente : clientes) {
@@ -286,13 +292,10 @@ public class GestaoCT {
     }
 
 
-    // 17 - Consultar Clientes com Ticket em aberto
-    private static void consultarClientesTicketAberto() {
-
-    }
+    // 17 - Consultar Clientes com Ticket em aberto **************************************
 
 
-// 18 - Eliminar clientes cadastrados por ID
+    // 18 - Eliminar cliente por ID
     private static void eliminarClientePorID() {
         System.out.print("Insira o ID do cliente:");
         int id = Functions.lerInteiro();
@@ -317,7 +320,7 @@ public class GestaoCT {
      ********* MÉTODOS PARA GESTÃO DE TICKETS ********
      **************************************************/
 
-// 41 - Registar um novo ticket
+    // 31 - Registar um novo ticket
     private static void registarTicket() {
         System.out.print("Insira o ID do ticket: ");
         int id = Functions.lerInteiro();
@@ -342,7 +345,7 @@ public class GestaoCT {
             String dataFimStr = tec.nextLine();
             dataFim = dateFormat.parse(dataFimStr);
         } catch (ParseException e) {
-            System.out.println("[Erro] Formato de data inválido. Certifique-se de usar o formato yyyy-MM-dd.");
+            System.out.println("[Erro] Formato de data inválido. Certifique-se de usar o formato yyyy-mm-dd.");
             return;
         }
 
@@ -364,7 +367,7 @@ public class GestaoCT {
     }
 
 
-    // 42 - Alterar dados de um ticket por ID
+    // 32 - Alterar dados de um ticket por ID
     private static void alterarTicketPorID() {
         System.out.print("Insira o ID do ticket: ");
         int id = Functions.lerInteiro();
@@ -387,7 +390,7 @@ public class GestaoCT {
     }
 
 
-    // 43 - Consultar um ticket por ID
+    // 33 - Consultar um ticket por ID
     private static void consultarTicketPorID() {
         System.out.print("Insira o ID do ticket: ");
         int id = Functions.lerInteiro();
@@ -407,26 +410,33 @@ public class GestaoCT {
         }
     }
 
-    // 47 Consultar tickets por tipo de cliente
-    private static void consultarTicketsPorCliente() {
-        System.out.print("Insira o tipo de cliente para consulta (Final/Revendedor): ");
-        String tipoCliente = tec.nextLine();
-        boolean ticketEncontrado = false;
 
-        for (Ticket ticket : tickets) {
-            if (ticket.getTipoCliente().equalsIgnoreCase(tipoCliente)) {
+    // 34 - Consultar todos os tickets
+    private static void consultarTicketsTodos() {
+        if (tickets.isEmpty()) {
+            System.out.println("Nenhum ticket registado.");
+        } else {
+            for (Ticket ticket : tickets) {
                 System.out.println(ticket);
-                ticketEncontrado = true;
             }
-        }
-
-        if (!ticketEncontrado) {
-            System.out.println("Nenhum ticket encontrado para o tipo de cliente especificado.");
         }
     }
 
 
-    // 50 - Eliminar um ticket por ID
+    // 35 Consulta parametrizada ***************************************************
+    // por ID inicial ao ID final, por tipo de ticket (Orç, Rel, Rep), por letra inicial a letra final, por tipo de cliente (F, R)
+
+
+    // 36 - Consulta de tickets em aberto ******************************************
+
+
+    // 37 - Consulta de tickets finalizados ******************************************
+
+
+    // 38 - Alterar para Relatório, Orçamento ou Reparação ******************************************
+
+
+    // 39 - Eliminar um ticket por ID
     private static void eliminarTicketPorID() {
         System.out.print("Insira o ID do ticket: ");
         int id = Functions.lerInteiro();
@@ -446,6 +456,26 @@ public class GestaoCT {
             System.out.println("ID do ticket não encontrado.");
         }
     }
+
+
+    // ******ACHO QUE ESSE DAQUI VAI VIRAR PARTE DA CONSULTA PARAMETRIZADA (opção 35)******
+    // 47 Consultar tickets por tipo de cliente
+    /*private static void consultarTicketsPorCliente() {
+        System.out.print("Insira o tipo de cliente para consulta (Final/Revendedor): ");
+        String tipoCliente = tec.nextLine();
+        boolean ticketEncontrado = false;
+
+        for (Ticket ticket : tickets) {
+            if (ticket.getTipoCliente().equalsIgnoreCase(tipoCliente)) {
+                System.out.println(ticket);
+                ticketEncontrado = true;
+            }
+        }
+
+        if (!ticketEncontrado) {
+            System.out.println("Nenhum ticket encontrado para o tipo de cliente especificado.");
+        }
+    }*/
 
 
     // Backup dos clientes
@@ -475,7 +505,7 @@ public class GestaoCT {
             try {
                 f = new ObjectInputStream(new FileInputStream(nomeFicheiro));
                 clientes = (ArrayList<Cliente>) f.readObject();
-                System.out.println("Restaudo de dados realizado com sucesso.");
+                System.out.println("Restauro de dados realizado com sucesso.");
             } catch (IOException e) {
                 System.out.println("Ficheiro: " + ficheiro.getAbsolutePath());
                 e.printStackTrace();            // Se a operação der erro mostra o erro...
@@ -488,7 +518,3 @@ public class GestaoCT {
         return clientes;
     }
 }
-
-
-
-
