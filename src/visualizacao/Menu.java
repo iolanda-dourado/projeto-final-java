@@ -16,7 +16,8 @@ public class Menu {
         System.out.println("|   18 - Consultar com ticket fechado |   38 Alterar p/ Rel, Orç, Rep     |");
         System.out.println("|   19 - Eliminar Cliente por ID      |   39 Eliminar Ticket por ID       |");
         System.out.println("+--------------------------------------+--------------------------------- +");
-        System.out.println("|   0 - Sair                                                              |");
+        System.out.println("|   40 - Restaurar dados                                                  |");
+        System.out.println("|    0 - Sair                                                             |");
         System.out.println("+--------------------------------------+--------------------------------- +\n");
     }
 // CONSULTA PARAMETRIZADA CLIENTE:

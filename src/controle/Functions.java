@@ -44,7 +44,7 @@ public class Functions {
                 tec.nextLine();
                 return number;
                 // Se não for introduzido um número inteiro, dispara o erro por ter recebido um tipo de dado diferente de int
-            } catch (Exception e) {
+            } catch (InputMismatchException e) {
                 System.out.print("[Erro] Entrada inválida. \nPor favor, insira um número: ");
                 tec.nextLine();
             }

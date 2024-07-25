@@ -24,8 +24,7 @@ public class GestaoCT {
         do {
             Menu.mostraMenu();
             System.out.print("Insira sua opção: ");
-            resposta = tec.nextInt();
-            tec.nextLine();
+            resposta = Functions.recebeInteiro();
 
             switch (resposta) {
                 // CLIENTES
@@ -85,9 +84,18 @@ public class GestaoCT {
                 case 39:
                     eliminarTicketPorID();
                     break;
+                case 40:
+                    clientes = Backup.lerClientes("clientes.bk");
+                    if (clientes == null || clientes.size() == 0)
+                        clientes = new ArrayList<>();
+
+                    tickets = Backup.lerTickets("tickets.bk");
+                    if (tickets == null || tickets.size() == 0)
+                        tickets = new ArrayList<>();
                 case 0:
-                    System.out.println("Obrigado por utilizar o serviço.");
-                    System.out.println("BACKUP FEITO COM SUCESSO!");
+                    System.out.println("----> Obrigado por utilizar o serviço!");
+                    Backup.gravaClientes(clientes, "clientes.bk");
+                    Backup.gravaTickets(tickets, "tickets.bk");
                     break;
                 default:
                     System.out.println("[Erro] Insira uma opção válida.");
@@ -116,36 +124,35 @@ public class GestaoCT {
 
         // Pede os dados ao utilizador
         System.out.print("Insira o nome completo: ");
-        String nome = tec.nextLine();
+        String nome = Functions.recebeString();
         System.out.print("Insira o NIF: ");
-        String nif = tec.nextLine();
+        String nif = Functions.recebeString();
         System.out.print("Insira o telefone: ");
-        String telefone = tec.nextLine();
+        String telefone = Functions.recebeString();
         System.out.print("Insira o email: ");
-        String email = tec.nextLine();
+        String email = Functions.recebeString();
 
         if (tipo.equals("final")) {
             // Verifica se o cliente tem desconto
             char primeiraLetra;
+            char desconto;
             do {
                 System.out.print("O cliente final tem desconto? [S/N]: ");
-                String desconto = tec.nextLine().trim().toUpperCase();
-                primeiraLetra = desconto.isEmpty() ? ' ' : desconto.charAt(0); // Verifica se a string não está vazia
+                desconto = Functions.recebeChar();
 
-                if (primeiraLetra != 'S' && primeiraLetra != 'N') {
+                if (desconto != 'S' && desconto != 'N') {
                     System.out.println("[Erro] Insira uma opção válida: S/N.");
                 }
-            } while (primeiraLetra != 'S' && primeiraLetra != 'N');
+            } while (desconto != 'S' && desconto != 'N');
 
             // Verifica qual é a porcentagem do desconto
             boolean temDesconto = false;
             double percentagemDesc = 0;
-            if (primeiraLetra == 'S') {
+            if (desconto == 'S') {
                 temDesconto = true;
                 do {
                     System.out.print("Qual a porcentagem do desconto? (Maior que 0 e até 5): ");
-                    percentagemDesc = tec.nextDouble();
-                    tec.nextLine();
+                    percentagemDesc = Functions.recebeDouble();
 
                     if (percentagemDesc > 5 || percentagemDesc <= 0) {
                         System.out.println("[Erro] Insira um valor maior que 0 e até 5.");
@@ -181,20 +188,20 @@ public class GestaoCT {
 
         if (clienteEncontrado != null) {
             System.out.print("Insira o nome atualizado: ");
-            String nome = tec.nextLine();
+            String nome = Functions.recebeString();
             clienteEncontrado.setNome(nome);
             System.out.print("Insira o NIF atualizado: ");
-            String nif = tec.nextLine();
+            String nif = Functions.recebeString();
             clienteEncontrado.setNif(nif);
             System.out.print("Insira o telefone atualizado: ");
-            String telefone = tec.nextLine();
+            String telefone = Functions.recebeString();
             clienteEncontrado.setTelefone(telefone);
             System.out.print("Insira o email atualizado: ");
-            String email = tec.nextLine();
+            String email = Functions.recebeString();
             clienteEncontrado.setEmail(email);
             System.out.println("---> Dados atualizados com sucesso.");
         } else {
-            System.out.println("ID de cliente não encontrado.");
+            System.out.println("[Erro] ID de cliente não encontrado.");
         }
     }
 
@@ -236,23 +243,21 @@ public class GestaoCT {
     // por ID inicial ao ID final, por tipo de cliente (F, R), por letra inicial a letra final
     private static void consultaParametrizadaCliente() {
         System.out.print("Do ID: ");
-        int idInicial = tec.nextInt();
-        tec.nextLine();
+        int idInicial = Functions.recebeInteiro();
         System.out.print("Ao ID: ");
-        int idFinal = tec.nextInt();
-        tec.nextLine();
+        int idFinal = Functions.recebeInteiro();
 
         char tipo;
         do {
             System.out.println("R - Revendedores \nF - Finais \nT - Todos");
             System.out.print("Tipo: ");
-            tipo = tec.nextLine().trim().toUpperCase().charAt(0);
+            tipo = Functions.recebeChar();
         } while (tipo != 'R' && tipo != 'F' && tipo != 'T');
 
         System.out.print("Da letra: ");
-        char letraInicial = tec.nextLine().trim().toUpperCase().charAt(0);
+        char letraInicial = Functions.recebeChar();
         System.out.print("Até a letra: ");
-        char letraFinal = tec.nextLine().trim().toUpperCase().charAt(0);
+        char letraFinal = Functions.recebeChar();
 
         Menu.imprimeCabecalhoClientes();
 
@@ -304,7 +309,7 @@ public class GestaoCT {
         }
 
         if (clientesComTicketAberto.isEmpty()) {
-            System.out.println("Nenhum cliente com tickets em aberto encontrado.");
+            System.out.println("[Aviso] Nenhum cliente com tickets em aberto encontrado.");
         } else {
             // Imprimir todos os clientes com tickets em aberto
             System.out.println("Clientes com tickets em aberto:");
@@ -369,7 +374,7 @@ public class GestaoCT {
                 if (cliente.getId() == id) {
                     clientes.remove(cliente);
                     clienteEncontrado = true;
-                    System.out.println("Cliente removido com sucesso.");
+                    System.out.println("----> Cliente removido com sucesso.");
                     break;
                 }
             }
@@ -418,7 +423,7 @@ public class GestaoCT {
         double valorPecas = Functions.recebeDouble();
 
         tickets.add(new Ticket(id, dataInicio, idCliente, tipoCliente, descHistorico, dataFim, valorServicos, valorPecas));
-        System.out.println("Ticket registado com sucesso.");
+        System.out.println("\n---> Ticket registado com sucesso.");
     }
 
 
@@ -430,10 +435,25 @@ public class GestaoCT {
 
         for (Ticket ticket : tickets) {
             if (ticket.getIdTicket() == id) {
+                Menu.imprimeCabecalhoTickets();
+                System.out.println(ticket);
+                System.out.println("Deseja alterar o ticket? (S/N)");
+                // se nao, mostra menu
+                // se diz sim, então pede os novos dados que são os que estão abaxixo
+
                 System.out.print("Insira a nova descrição do histórico: ");
-                String novoHistorico = tec.nextLine();
+                String novoHistorico = Functions.recebeString();
                 ticket.setDescHistorico(novoHistorico);
                 ticketEncontrado = true;
+
+                /*
+                *  Falta pedir esses dados!!!
+                    this.dataInicio = dataInicio;
+                    this.descHistorico = descHistorico;
+                    this.dataFim = dataFim;
+                    this.valorServicos = valorServicos;
+                    this.valorPecas = valorPecas;
+                    * */
                 System.out.println("Dados do ticket alterados com sucesso.");
                 break;
             }
@@ -481,7 +501,7 @@ public class GestaoCT {
 
     // 35 - Consulta parametrizada de tickets
     // por ID inicial ao ID final, por tipo de ticket (Orç, Rel, Rep), por letra inicial a letra final, por tipo de cliente (F, R)
-    private static void consultaParametrizadaTickets() {
+    private static void consultaParametrizadaTicket() {
         // Recebendo o intervalo de IDs
         System.out.print("Do ID: ");
         int idInicial = Functions.recebeInteiro();
@@ -493,21 +513,21 @@ public class GestaoCT {
         do {
             System.out.println("R - Relatório \nO - Orçamento \nP - Reparação \nT - Todos");
             System.out.print("Tipo de Ticket: ");
-            tipoTicket = tec.nextLine().trim().toUpperCase().charAt(0);
+            tipoTicket = Functions.recebeChar();//tec.nextLine().trim().toUpperCase().charAt(0);
         } while (tipoTicket != 'R' && tipoTicket != 'O' && tipoTicket != 'P' && tipoTicket != 'T');
 
         // Recebendo o intervalo de letras do nome do cliente
         System.out.print("Da letra (nome do cliente): ");
-        char letraInicial = tec.nextLine().trim().toUpperCase().charAt(0);
+        char letraInicial = Functions.recebeChar();
         System.out.print("Até a letra (nome do cliente): ");
-        char letraFinal = tec.nextLine().trim().toUpperCase().charAt(0);
+        char letraFinal = Functions.recebeChar();
 
         // Recebendo o tipo de cliente
         char tipoCliente;
         do {
             System.out.println("F - Finais \nR - Revendedores \nT - Todos");
             System.out.print("Tipo de Cliente: ");
-            tipoCliente = tec.nextLine().trim().toUpperCase().charAt(0);
+            tipoCliente = Functions.recebeChar();
         } while (tipoCliente != 'F' && tipoCliente != 'R' && tipoCliente != 'T');
 
         // Imprime os tickets que atendem aos critérios
@@ -580,7 +600,6 @@ public class GestaoCT {
             System.out.println("Nenhum ticket encontrado com os parâmetros especificados.");
         }
     }
-
 
 
     // 36 - Consulta de tickets em aberto
@@ -672,7 +691,6 @@ public class GestaoCT {
             System.out.println("[Erro] Tipo de ticket desconhecido.");
         }
     }
-
 
 
     // 39 - Eliminar um ticket por ID

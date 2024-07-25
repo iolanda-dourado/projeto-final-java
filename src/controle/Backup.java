@@ -1,57 +1,85 @@
 package controle;
 
-import modelo.Cliente;
-import modelo.Ticket;
-
 import java.io.*;
 import java.util.ArrayList;
+import modelo.*;
 
 public class Backup {
-
-
-    public static void realizarBackup(ArrayList<Cliente> clientes, ArrayList<Ticket> tickets, String nomeFicheiroBackup) {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(nomeFicheiroBackup))) {
-            oos.writeObject(clientes); // Salva a lista de clientes
-            oos.writeObject(tickets); // Salva a lista de tickets
-            System.out.println("Backup realizado com sucesso no arquivo: " + nomeFicheiroBackup);
-
-            // Grava o histórico em um arquivo de texto
-            gravarHistorico("backup_history.txt", "Backup realizado com sucesso. Dados salvos em: " + nomeFicheiroBackup);
-
+    public static void gravaClientes(ArrayList<Cliente> clientes, String nomeFicheiro) {
+        File f = new File(nomeFicheiro);
+        try {
+            f.createNewFile();              //Criar novo ficheiro
+            ObjectOutputStream ficheiro = new ObjectOutputStream(new FileOutputStream(nomeFicheiro));
+            ficheiro.writeObject(clientes); // Escrever o arrayList no ficheiro
+            System.out.println("Backup de clientes executado com sucesso.");
+            System.out.println("no ficheiro: " + f.getAbsolutePath());
+            ficheiro.flush();
+            ficheiro.close();
         } catch (IOException e) {
-            System.out.println("Erro ao realizar backup: " + e.getMessage());
+            e.printStackTrace();            // Se a operação der erro mostra o erro...
         }
     }
-
-
     @SuppressWarnings("unchecked")
-    public static ArrayList<Object> restaurarBackup(String nomeFicheiroBackup) {
-        ArrayList<Object> dados = new ArrayList<>();
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(nomeFicheiroBackup))) {
-            ArrayList<Cliente> clientes = (ArrayList<Cliente>) ois.readObject();
-            ArrayList<Ticket> tickets = (ArrayList<Ticket>) ois.readObject();
-            dados.add(clientes);
-            dados.add(tickets);
-            System.out.println("Restauração de dados realizada com sucesso.");
+    public static ArrayList<Cliente> lerClientes(String nomeFicheiro) {
+        ArrayList<Cliente> clientes = new ArrayList<>();
+        File ficheiro = new File(nomeFicheiro);
+        if (!ficheiro.exists())
+            ficheiro = new File(nomeFicheiro);
+        else {
+            ObjectInputStream f;
+            try {
+                f = new ObjectInputStream(new FileInputStream(nomeFicheiro));
+                clientes = (ArrayList<Cliente>) f.readObject();
+                System.out.println("Restauro de dados realizado com sucesso.");
+            } catch (IOException e) {
+                System.out.println("Ficheiro: " + ficheiro.getAbsolutePath());
+                e.printStackTrace();            // Se a operação der erro mostra o erro...
+            } catch (ClassNotFoundException e) {
+                System.out.println("Ficheiro: " + ficheiro.getAbsolutePath());
+                e.printStackTrace();            // Se a operação der erro mostra o erro...
+            }
 
-            // Grava o histórico em um arquivo de texto
-            gravarHistorico("backup_history.txt", "Restauração de dados realizada com sucesso. Dados restaurados de: " + nomeFicheiroBackup);
-
-        } catch (IOException e) {
-            System.out.println("Erro ao restaurar dados: " + e.getMessage());
-        } catch (ClassNotFoundException e) {
-            System.out.println("Erro de classe não encontrada: " + e.getMessage());
         }
-        return dados;
+        return clientes;
     }
 
 
-    private static void gravarHistorico(String nomeFicheiroHistorico, String mensagem) {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(nomeFicheiroHistorico, true))) {
-            bw.write(new java.util.Date() + " - " + mensagem);
-            bw.newLine();
+
+    public static void gravaTickets(ArrayList<Ticket> tickets, String nomeFicheiro) {
+        File f = new File(nomeFicheiro);
+        try {
+            f.createNewFile();              //Criar novo ficheiro
+            ObjectOutputStream ficheiro = new ObjectOutputStream(new FileOutputStream(nomeFicheiro));
+            ficheiro.writeObject(tickets); // Escrever o arrayList no ficheiro
+            System.out.println("Backup de tickets executado com sucesso.");
+            System.out.println("no ficheiro: " + f.getAbsolutePath());
+            ficheiro.flush();
+            ficheiro.close();
         } catch (IOException e) {
-            System.out.println("Erro ao gravar histórico: " + e.getMessage());
+            e.printStackTrace();            // Se a operação der erro mostra o erro...
         }
+    }
+    @SuppressWarnings("unchecked")
+    public static ArrayList<Ticket> lerTickets(String nomeFicheiro) {
+        ArrayList<Ticket> tickets = new ArrayList<>();
+        File ficheiro = new File(nomeFicheiro);
+        if (!ficheiro.exists())
+            ficheiro = new File(nomeFicheiro);
+        else {
+            ObjectInputStream f;
+            try {
+                f = new ObjectInputStream(new FileInputStream(nomeFicheiro));
+                tickets = (ArrayList<Ticket>) f.readObject();
+                System.out.println("Restaudo de dados realizado com sucesso.");
+            } catch (IOException e) {
+                System.out.println("Ficheiro: " + ficheiro.getAbsolutePath());
+                e.printStackTrace();            // Se a operação der erro mostra o erro...
+            } catch (ClassNotFoundException e) {
+                System.out.println("Ficheiro: " + ficheiro.getAbsolutePath());
+                e.printStackTrace();            // Se a operação der erro mostra o erro...
+            }
+
+        }
+        return tickets;
     }
 }
