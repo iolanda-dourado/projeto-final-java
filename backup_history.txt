@@ -36,3 +36,33 @@ Thu Jul 25 00:31:51 WEST 2024 - Backup realizado com sucesso. Dados salvos em: I
 Thu Jul 25 00:31:51 WEST 2024 - Restauração de dados realizada com sucesso. Dados restaurados de: Iolanda_Manuel_Backup.txt
 Thu Jul 25 00:34:36 WEST 2024 - Backup realizado com sucesso. Dados salvos em: Iolanda_Manuel_Backup.txt
 Thu Jul 25 00:34:36 WEST 2024 - Restauração de dados realizada com sucesso. Dados restaurados de: Iolanda_Manuel_Backup.txt
+Thu Jul 25 00:59:44 WEST 2024 - Backup realizado com sucesso. Dados salvos em: Iolanda_Manuel_Backup.txt
+Thu Jul 25 00:59:44 WEST 2024 - Restauração de dados realizada com sucesso. Dados restaurados de: Iolanda_Manuel_Backup.txt
+Thu Jul 25 01:08:44 WEST 2024 - Backup realizado com sucesso. Dados salvos em: Iolanda_Manuel_Backup.txt
+Thu Jul 25 01:08:44 WEST 2024 - Restauração de dados realizada com sucesso. Dados restaurados de: Iolanda_Manuel_Backup.txt
+Thu Jul 25 01:09:35 WEST 2024 - Backup realizado com sucesso. Dados salvos em: Iolanda_Manuel_Backup.txt
+Thu Jul 25 01:09:35 WEST 2024 - Restauração de dados realizada com sucesso. Dados restaurados de: Iolanda_Manuel_Backup.txt
+Thu Jul 25 01:12:29 WEST 2024 - Backup realizado com sucesso. Dados salvos em: Iolanda_Manuel_Backup.txt
+Thu Jul 25 01:12:29 WEST 2024 - Restauração de dados realizada com sucesso. Dados restaurados de: Iolanda_Manuel_Backup.txt
+Thu Jul 25 01:18:54 WEST 2024 - Backup realizado com sucesso. Dados salvos em: Iolanda_Manuel_Backup.txt
+Thu Jul 25 01:18:54 WEST 2024 - Restauração de dados realizada com sucesso. Dados restaurados de: Iolanda_Manuel_Backup.txt
+Thu Jul 25 01:23:51 WEST 2024 - Backup realizado com sucesso. Dados salvos em: Iolanda_Manuel_Backup.txt
+Thu Jul 25 01:23:51 WEST 2024 - Restauração de dados realizada com sucesso. Dados restaurados de: Iolanda_Manuel_Backup.txt
+Thu Jul 25 01:26:39 WEST 2024 - Backup realizado com sucesso. Dados salvos em: Iolanda_Manuel_Backup.txt
+Thu Jul 25 01:26:39 WEST 2024 - Restauração de dados realizada com sucesso. Dados restaurados de: Iolanda_Manuel_Backup.txt
+Thu Jul 25 01:26:55 WEST 2024 - Backup realizado com sucesso. Dados salvos em: Iolanda_Manuel_Backup.txt
+Thu Jul 25 01:26:55 WEST 2024 - Restauração de dados realizada com sucesso. Dados restaurados de: Iolanda_Manuel_Backup.txt
+Thu Jul 25 01:27:37 WEST 2024 - Backup realizado com sucesso. Dados salvos em: Iolanda_Manuel_Backup.txt
+Thu Jul 25 01:27:38 WEST 2024 - Restauração de dados realizada com sucesso. Dados restaurados de: Iolanda_Manuel_Backup.txt
+Thu Jul 25 01:31:25 WEST 2024 - Backup realizado com sucesso. Dados salvos em: Iolanda_Manuel_Backup.txt
+Thu Jul 25 01:31:25 WEST 2024 - Restauração de dados realizada com sucesso. Dados restaurados de: Iolanda_Manuel_Backup.txt
+Thu Jul 25 01:32:57 WEST 2024 - Backup realizado com sucesso. Dados salvos em: Iolanda_Manuel_Backup.txt
+Thu Jul 25 01:32:57 WEST 2024 - Restauração de dados realizada com sucesso. Dados restaurados de: Iolanda_Manuel_Backup.txt
+Thu Jul 25 01:34:14 WEST 2024 - Backup realizado com sucesso. Dados salvos em: Iolanda_Manuel_Backup.txt
+Thu Jul 25 01:34:14 WEST 2024 - Restauração de dados realizada com sucesso. Dados restaurados de: Iolanda_Manuel_Backup.txt
+Thu Jul 25 01:35:44 WEST 2024 - Backup realizado com sucesso. Dados salvos em: Iolanda_Manuel_Backup.txt
+Thu Jul 25 01:35:44 WEST 2024 - Restauração de dados realizada com sucesso. Dados restaurados de: Iolanda_Manuel_Backup.txt
+Thu Jul 25 01:37:01 WEST 2024 - Backup realizado com sucesso. Dados salvos em: Iolanda_Manuel_Backup.txt
+Thu Jul 25 01:37:01 WEST 2024 - Restauração de dados realizada com sucesso. Dados restaurados de: Iolanda_Manuel_Backup.txt
+Thu Jul 25 01:37:57 WEST 2024 - Backup realizado com sucesso. Dados salvos em: Iolanda_Manuel_Backup.txt
+Thu Jul 25 01:37:57 WEST 2024 - Restauração de dados realizada com sucesso. Dados restaurados de: Iolanda_Manuel_Backup.txt

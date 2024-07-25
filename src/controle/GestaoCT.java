@@ -4,10 +4,11 @@ import modelo.Cliente;
 import modelo.ClienteFinal;
 import modelo.ClienteRevendedor;
 import modelo.Ticket;
+import modelo.Relatorio;
+import modelo.Orcamento;
+import modelo.Reparacao;
 import visualizacao.Menu;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
@@ -15,7 +16,6 @@ import java.io.*;
 
 public class GestaoCT {
     private static Scanner tec = new Scanner(System.in);
-    private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     private static ArrayList<Cliente> clientes = new ArrayList<>();
     private static ArrayList<Ticket> tickets = new ArrayList<>();
 
@@ -46,7 +46,7 @@ public class GestaoCT {
                     consultarClientesTodos();
                     break;
                 case 16:
-                    consultaParametrizada();
+                    consultaParametrizadaC();
                     break;
                 case 17:
                     //consultarClientesTicketAberto();
@@ -69,7 +69,7 @@ public class GestaoCT {
                     consultarTicketsTodos();
                     break;
                 case 35:
-                    consultaParametrizada();
+                    consultaParametrizadaT();
                     break;
                 case 36:
                     //consultarPorData();
@@ -78,7 +78,7 @@ public class GestaoCT {
                     consultarTicketsAbertos();
                     break;
                 case 38:
-                    //consultarTicketsFinalizados();
+                    consultarTicketsFinalizados();
                     break;
                 case 39:
                     //transformarEstadoTicket(); // Ex: transformar em relatório, orçamento, reparação
@@ -235,7 +235,7 @@ public class GestaoCT {
 
     // 16 - Consulta parametrizada
     // por ID inicial ao ID final, por tipo de cliente (F, R), por letra inicial a letra final
-    private static void consultaParametrizada() {
+    private static void consultaParametrizadaC() {
         System.out.print("Do ID: ");
         int idInicial = tec.nextInt();
         tec.nextLine();
@@ -339,26 +339,24 @@ public class GestaoCT {
         // Leitura e conversão das datas
         System.out.print("Insira a data de início (yyyy-MM-dd): ");
         Date dataInicio = Functions.recebeData();
-
         System.out.print("Insira a data de fim (yyyy-MM-dd): ");
         Date dataFim = Functions.recebeData();
-
         //System.out.println("Data de Início: " + dataInicio);
         //System.out.println("Data de Fim: " + dataFim);
 
         System.out.print("Insira o ID do cliente: ");
         int idCliente = Functions.recebeInteiro();
         System.out.print("Insira o tipo de cliente (Final/Revendedor): ");
-        String tipoCliente = tec.nextLine();
+        String tipoCliente = Functions.recebeString();
         System.out.print("Insira a descrição do histórico: ");
-        String descHistorico = tec.nextLine();
+        String descHistorico = Functions.recebeString();
         System.out.print("Insira o valor dos serviços: ");
         double valorServicos = Functions.recebeDouble();
         System.out.print("Insira o valor das peças: ");
         double valorPecas = Functions.recebeDouble();
 
         tickets.add(new Ticket(id, dataInicio, idCliente, tipoCliente, descHistorico, dataFim, valorServicos, valorPecas));
-        System.out.println("Ticket registrado com sucesso.");
+        System.out.println("Ticket registado com sucesso.");
     }
 
 
@@ -411,6 +409,7 @@ public class GestaoCT {
         if (tickets.isEmpty()) {
             System.out.println("Nenhum ticket registado.");
         } else {
+            Menu.imprimeCabecalhoTickets();
             for (Ticket ticket : tickets) {
                 System.out.println(ticket);
             }
@@ -420,19 +419,41 @@ public class GestaoCT {
 
     // 35 Consulta parametrizada ***************************************************
     // por ID inicial ao ID final, por tipo de ticket (Orç, Rel, Rep), por letra inicial a letra final, por tipo de cliente (F, R)
+    private static void consultaParametrizadaT() {
+
+    }
 
 
     // 36 - Consulta de tickets em aberto
+    // São considerados tickets em aberto aqueles de tipo Relatório e Orçamento
     private static void consultarTicketsAbertos() {
-        for (Ticket ticket : tickets) {
+        if (tickets.isEmpty()) {
+            System.out.println("Nenhum ticket registado.");
+        } else {
             Menu.imprimeCabecalhoTickets();
-            System.out.println(ticket);
+            for (Ticket ticket : tickets) {
+                if (ticket instanceof Relatorio || ticket instanceof Orcamento) {
+                    System.out.println(ticket);
+                }
+            }
         }
     }
 
 
     // 37 - Consulta de tickets finalizados ******************************************
-
+    // São considerados tickets finalizados aqueles de tipo Reparação
+    private static void consultarTicketsFinalizados() {
+        if (tickets.isEmpty()) {
+            System.out.println("Nenhum ticket registado.");
+        } else {
+            Menu.imprimeCabecalhoTickets();
+            for (Ticket ticket : tickets) {
+                if (ticket instanceof Relatorio || ticket instanceof Orcamento) {
+                    System.out.println(ticket);
+                }
+            }
+        }
+    }
 
     // 38 - Alterar para Relatório, Orçamento ou Reparação ******************************************
 
@@ -444,13 +465,18 @@ public class GestaoCT {
 
         boolean ticketEncontrado = false;
 
-        for (int i = 0; i < tickets.size(); i++) {
-            if (tickets.get(i).getIdTicket() == id) {
-                tickets.remove(i);
-                ticketEncontrado = true;
-                System.out.println("Ticket removido com sucesso.");
-                break;
+        if (tickets.isEmpty()) {
+            System.out.println("Nenhum ticket registado.");
+        } else {
+            for (int i = 0; i < tickets.size(); i++) {
+                if (tickets.get(i).getIdTicket() == id) {
+                    tickets.remove(i);
+                    ticketEncontrado = true;
+                    System.out.println("Ticket removido com sucesso.");
+                    break;
+                }
             }
+
         }
 
         if (!ticketEncontrado) {

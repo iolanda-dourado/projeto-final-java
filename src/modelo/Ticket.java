@@ -83,7 +83,7 @@ public class Ticket implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("ID Reparação: %d | Cliente: [%s] | Data Início: %s | Data Fim: %s | Histórico: %s | Valor Serviços: %.2f | Valor Peças: %.2f",
+        return String.format("%-5s | %-14s | %-29s | %-29s | %-11s | %-11s | %-10s%n",
                 idTicket, tipoCliente, dataInicio, dataFim, descHistorico, valorServicos, valorPecas);
     }
 }

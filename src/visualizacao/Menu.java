@@ -36,8 +36,8 @@ public class Menu {
     }
 
     public static void imprimeCabecalhoTickets() {
-        System.out.printf("%-5s | %-11s | %-11s | %-30s | %-11s | %-10s | %-10s",
-                "ID", "Dt Início", "Tipo Cliente", "Descrição", "Dt Fim", "$ Serviço", "% $ Peças");
+        System.out.printf("%-5s | %-14s | %-29s | %-29s | %-11s | %-11s | %-10s%n",
+                "ID", "Tipo Cliente", "Data Início", "Data Fim", "Descrição", "Val Serviço", "Val Peças");
     }
 
 }
