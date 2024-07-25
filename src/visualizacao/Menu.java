@@ -13,7 +13,7 @@ public class Menu {
         System.out.println("|   15 - Consultar todos              |   35 Consulta parametrizada       |");
         System.out.println("|   16 - Consulta parametrizada       |   36 Consulta tickets abertos     |");  // TICKETS RELATÓRIO E ORÇAMENTO
         System.out.println("|   17 - Consultar com ticket aberto  |   37 Consulta tickets finalizados |");  // TICKETS REPARAÇÃO
-        System.out.println("|   18 - Consultar com ticket aberto  |   38 Alterar p/ Rel, Orç, Rep     |");
+        System.out.println("|   18 - Consultar com ticket fechado |   38 Alterar p/ Rel, Orç, Rep     |");
         System.out.println("|   19 - Eliminar Cliente por ID      |   39 Eliminar Ticket por ID       |");
         System.out.println("+--------------------------------------+--------------------------------- +");
         System.out.println("|   0 - Sair                                                              |");

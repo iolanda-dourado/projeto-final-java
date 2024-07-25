@@ -22,6 +22,19 @@ public class Functions {
         }
     }
 
+    public static char recebeChar() {
+        while (true) {
+            String input = tec.nextLine().trim().toUpperCase();
+
+            // Verifica se a string tem pelo menos um caractere
+            if (!input.isEmpty()) {
+                return input.charAt(0);
+            } else {
+                System.out.print("[Erro] A resposta não pode estar vazia. \nPor favor, insira novamente: ");
+            }
+        }
+    }
+
 
     public static int recebeInteiro() {
         while (true) {
