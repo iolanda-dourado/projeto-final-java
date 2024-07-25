@@ -2,34 +2,36 @@ package modelo;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.text.SimpleDateFormat;
 
 public class Ticket implements Serializable {
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     private static final long serialVersionUID = 1L; // Indentificador da versão para serialização
     private int idTicket;
-    private Date dataInicio;
     private int idCliente;
-    private String tipoCliente;
-    private String descHistorico;
+    private Date dataInicio;
     private Date dataFim;
+    private String descHistorico;
     private double valorServicos;
     private double valorPecas;
+    private boolean aberto;
 
 
     // Construtor
-    public Ticket(int idReparacao, Date dataInicio, int idCliente, String tipoCliente, String descHistorico, Date dataFim, double valorServicos, double valorPecas) {
-        super();
-        this.idTicket = idReparacao;
-        this.dataInicio = dataInicio;
+    public Ticket(int idTicket, int idCliente, Date dataInicio, Date dataFim, String descHistorico, double valorServicos, double valorPecas, boolean aberto) {
+        this.idTicket = idTicket;
         this.idCliente = idCliente;
-        this.tipoCliente = tipoCliente;
-        this.descHistorico = descHistorico;
+        this.dataInicio = dataInicio;
         this.dataFim = dataFim;
+        this.descHistorico = descHistorico;
         this.valorServicos = valorServicos;
         this.valorPecas = valorPecas;
+        this.aberto = aberto;
     }
 
-
     // Getters e Setters
+
+
     public int getIdTicket() {
         return idTicket;
     }
@@ -37,53 +39,66 @@ public class Ticket implements Serializable {
     public void setIdTicket(int idTicket) {
         this.idTicket = idTicket;
     }
-    public Date getDataInicio() {
-        return dataInicio;
-    }
-    public void setDataInicio(Date dataInicio) {
-        this.dataInicio = dataInicio;
-    }
+
     public int getIdCliente() {
         return idCliente;
     }
+
     public void setIdCliente(int idCliente) {
         this.idCliente = idCliente;
     }
-    public String getTipoCliente() {
-        return tipoCliente;
+
+    public Date getDataInicio() {
+        return dataInicio;
     }
-    public void setTipoCliente(String tipoCliente) {
-        this.tipoCliente = tipoCliente;
+
+    public void setDataInicio(Date dataInicio) {
+        this.dataInicio = dataInicio;
     }
-    public String getDescHistorico() {
-        return descHistorico;
-    }
-    public void setDescHistorico(String descHistorico) {
-        this.descHistorico = descHistorico;
-    }
+
     public Date getDataFim() {
         return dataFim;
     }
+
     public void setDataFim(Date dataFim) {
         this.dataFim = dataFim;
     }
+
+    public String getDescHistorico() {
+        return descHistorico;
+    }
+
+    public void setDescHistorico(String descHistorico) {
+        this.descHistorico = descHistorico;
+    }
+
     public double getValorServicos() {
         return valorServicos;
     }
+
     public void setValorServicos(double valorServicos) {
         this.valorServicos = valorServicos;
     }
+
     public double getValorPecas() {
         return valorPecas;
     }
+
     public void setValorPecas(double valorPecas) {
         this.valorPecas = valorPecas;
     }
 
+    public boolean isAberto() {
+        return aberto;
+    }
+
+    public void setAberto(boolean aberto) {
+        this.aberto = aberto;
+    }
 
     @Override
     public String toString() {
-        return String.format("%-5s | %-14s | %-29s | %-29s | %-11s | %-11s | %-10s",
-                idTicket, tipoCliente, dataInicio, dataFim, descHistorico, valorServicos, valorPecas);
+        return String.format("| %-5d | %-6d | %-11s | %-11s | %-30s | %-11.2f | %-11.2f | %-8s ",
+                idTicket, idCliente, dateFormat.format(dataInicio), dateFormat.format(dataFim), descHistorico, valorServicos, valorPecas, aberto ? "Aberto" : "Fechado");
     }
 }

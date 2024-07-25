@@ -4,22 +4,12 @@ import java.io.Serializable;
 
 public class ClienteFinal extends Cliente implements Serializable {
     private static final long serialVersionUID = 1L;
-    private boolean temDesc;
     private double percentagemDesconto;
 
 
-    public ClienteFinal(int id, String nome, String nif, String telefone, String email, boolean temDesc, double percentagemDesconto) {
-        super(id, nome, nif, telefone, email);
-        this.temDesc = temDesc;
+    public ClienteFinal(int id, String nome, String nif, String telefone, double percentagemDesconto) {
+        super(id, nome, nif, telefone);
         this.percentagemDesconto = percentagemDesconto;
-    }
-
-    public boolean isTemDesc() {
-        return temDesc;
-    }
-
-    public void setTemDesc(boolean temDesc) {
-        this.temDesc = temDesc;
     }
 
     public double getPercentagemDesconto() {
@@ -32,8 +22,8 @@ public class ClienteFinal extends Cliente implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("%-13s | %-5s | %-25s | %-11s | %-13s | %-30s | %-15s | %-20s | %-20s",
-                "Final", getId(), getNome(), getNif(), getTelefone(), getEmail(),
-                "0", "0", percentagemDesconto);
+        return String.format("%-14s | %-5s | %-25s | %-11s | %-13s | %-10s | %-10s | %-10s |",
+                "| Final", getId(), getNome(), getNif(), getTelefone(),
+                "0.0", "0.0", percentagemDesconto);
     }
 }

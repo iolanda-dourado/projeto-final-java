@@ -11,15 +11,22 @@ import visualizacao.Menu;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Scanner;
 
 public class GestaoCT {
-    private static Scanner tec = new Scanner(System.in);
     private static ArrayList<Cliente> clientes = new ArrayList<>();
     private static ArrayList<Ticket> tickets = new ArrayList<>();
 
     // Método para apresentar o menu geral para os dois tipos de clientes e a escolha de opções
     public static void menuGerenciamento() {
+        // Restaura os dados ao chamar o método menuGerenciamento()
+        clientes = Backup.lerClientes("clientes.bk");
+        if (clientes == null || clientes.isEmpty())
+            clientes = new ArrayList<>();
+
+        tickets = Backup.lerTickets("tickets.bk");
+        if (tickets == null || tickets.isEmpty())
+            tickets = new ArrayList<>();
+
         int resposta;
         do {
             Menu.mostraMenu();
@@ -76,7 +83,7 @@ public class GestaoCT {
                     consultarTicketsAbertos();
                     break;
                 case 37:
-                    consultarTicketsFinalizados();
+                    consultarTicketsFechados();
                     break;
                 case 38:
                     transformarEstadoTicket(); // Ex: transformar em relatório, orçamento, reparação
@@ -85,15 +92,15 @@ public class GestaoCT {
                     eliminarTicketPorID();
                     break;
                 case 40:
-                    clientes = Backup.lerClientes("clientes.bk");
-                    if (clientes == null || clientes.size() == 0)
+                    /*clientes = Backup.lerClientes("clientes.bk");
+                    if (clientes == null || clientes.isEmpty())
                         clientes = new ArrayList<>();
 
                     tickets = Backup.lerTickets("tickets.bk");
-                    if (tickets == null || tickets.size() == 0)
-                        tickets = new ArrayList<>();
+                    if (tickets == null || tickets.isEmpty())
+                        tickets = new ArrayList<>();*/
                 case 0:
-                    System.out.println("----> Obrigado por utilizar o serviço!");
+                    System.out.println("[Sucesso] Obrigado por utilizar o serviço!");
                     Backup.gravaClientes(clientes, "clientes.bk");
                     Backup.gravaTickets(tickets, "tickets.bk");
                     break;
@@ -129,29 +136,19 @@ public class GestaoCT {
         String nif = Functions.recebeString();
         System.out.print("Insira o telefone: ");
         String telefone = Functions.recebeString();
-        System.out.print("Insira o email: ");
-        String email = Functions.recebeString();
+        /*System.out.print("Insira o email: ");
+        String email = Functions.recebeString();*/
 
+        double percentagemDesc = 0;
         if (tipo.equals("final")) {
-            // Verifica se o cliente tem desconto
-            char primeiraLetra;
-            char desconto;
-            do {
-                System.out.print("O cliente final tem desconto? [S/N]: ");
-                desconto = Functions.recebeChar();
-
-                if (desconto != 'S' && desconto != 'N') {
-                    System.out.println("[Erro] Insira uma opção válida: S/N.");
-                }
-            } while (desconto != 'S' && desconto != 'N');
+            System.out.print("O cliente final tem desconto? [S/N]: ");
+            boolean desconto = Functions.validaSeN();
 
             // Verifica qual é a porcentagem do desconto
-            boolean temDesconto = false;
-            double percentagemDesc = 0;
-            if (desconto == 'S') {
-                temDesconto = true;
+            percentagemDesc = 0;
+            if (desconto) {
                 do {
-                    System.out.print("Qual a porcentagem do desconto? (Maior que 0 e até 5): ");
+                    System.out.print("Qual a percentagem do desconto? (Maior que 0 e até 5): ");
                     percentagemDesc = Functions.recebeDouble();
 
                     if (percentagemDesc > 5 || percentagemDesc <= 0) {
@@ -161,14 +158,14 @@ public class GestaoCT {
             }
 
             // Adicionar novo cliente final ao ArrayList
-            System.out.println("\n----> Cliente final cadastrado com sucesso.");
-            clientes.add(new ClienteFinal(id, nome, nif, telefone, email, temDesconto, percentagemDesc));
+            System.out.println("\n[Sucesso] Cliente final cadastrado com sucesso.");
+            clientes.add(new ClienteFinal(id, nome, nif, telefone, percentagemDesc));
         } else if (tipo.equals("revendedor")) {
             double descontoPecas = 0.20;
             double descontoMaoObra = 0.10;
             // Adicionar novo cliente revendedor ao ArrayList
-            System.out.println("\n----> Cliente revendedor cadastrado com sucesso.");
-            clientes.add(new ClienteRevendedor(id, nome, nif, telefone, email, descontoMaoObra, descontoPecas));
+            System.out.println("\n[Sucesso] Cliente revendedor cadastrado com sucesso.");
+            clientes.add(new ClienteRevendedor(id, nome, nif, telefone, descontoMaoObra, descontoPecas));
         }
     }
 
@@ -196,10 +193,10 @@ public class GestaoCT {
             System.out.print("Insira o telefone atualizado: ");
             String telefone = Functions.recebeString();
             clienteEncontrado.setTelefone(telefone);
-            System.out.print("Insira o email atualizado: ");
-            String email = Functions.recebeString();
-            clienteEncontrado.setEmail(email);
-            System.out.println("---> Dados atualizados com sucesso.");
+        /*System.out.print("Insira o email atualizado: ");
+        String email = Functions.recebeString();
+        clienteEncontrado.setEmail(email);*/
+            System.out.println("\n[Sucesso] Dados atualizados com sucesso.");
         } else {
             System.out.println("[Erro] ID de cliente não encontrado.");
         }
@@ -219,6 +216,7 @@ public class GestaoCT {
                 clienteEncontrado = true;
                 break;
             }
+            Menu.imprimeFimClientes();
         }
 
         if (!clienteEncontrado) {
@@ -235,12 +233,13 @@ public class GestaoCT {
             for (Cliente cliente : clientes) {
                 System.out.println(cliente);
             }
+            Menu.imprimeFimClientes();
         }
     }
 
 
     // 16 - Consulta parametrizada
-    // por ID inicial ao ID final, por tipo de cliente (F, R), por letra inicial a letra final
+// por ID inicial ao ID final, por tipo de cliente (F, R), por letra inicial a letra final
     private static void consultaParametrizadaCliente() {
         System.out.print("Do ID: ");
         int idInicial = Functions.recebeInteiro();
@@ -260,7 +259,6 @@ public class GestaoCT {
         char letraFinal = Functions.recebeChar();
 
         Menu.imprimeCabecalhoClientes();
-
         // Processando e imprimindo os clientes que atendem aos critérios
         for (Cliente cliente : clientes) {
             if (cliente.getId() >= idInicial && cliente.getId() <= idFinal) {
@@ -288,11 +286,11 @@ public class GestaoCT {
                     char letraCliente = cliente.getNome().trim().toUpperCase().charAt(0);
                     if (letraCliente >= letraInicial && letraCliente <= letraFinal) {
                         System.out.println(cliente);
-                        ;
                     }
                 }
             }
         }
+        Menu.imprimeFimClientes();
     }
 
     // 17 - Consultar Clientes com Ticket em aberto
@@ -319,6 +317,7 @@ public class GestaoCT {
                     System.out.println(cliente);
                 }
             }
+            Menu.imprimeFimClientes();
         }
     }
 
@@ -346,6 +345,7 @@ public class GestaoCT {
                     System.out.println(cliente);
                 }
             }
+            Menu.imprimeFimClientes();
         }
     }
 
@@ -374,7 +374,7 @@ public class GestaoCT {
                 if (cliente.getId() == id) {
                     clientes.remove(cliente);
                     clienteEncontrado = true;
-                    System.out.println("----> Cliente removido com sucesso.");
+                    System.out.println("\n[Sucesso] Cliente removido com sucesso.");
                     break;
                 }
             }
@@ -390,31 +390,39 @@ public class GestaoCT {
      ********* MÉTODOS PARA GESTÃO DE TICKETS ********
      **************************************************/
 
-    // 31 - Registar um novo ticket
+// 31 - Registar um novo ticket
     private static void registarTicket() {
         System.out.print("Insira o ID do ticket: ");
-        int id = Functions.recebeInteiro();
+        int idTicket = Functions.recebeInteiro();
 
-        // Verificar se o ID já existe
+        // Verificar se o ID do ticket já existe
         for (Ticket ticket : tickets) {
-            if (ticket.getIdTicket() == id) {
-                System.out.println("[Erro] ID do ticket já cadastrado. Tente novamente.");
-                return;
+            if (ticket.getIdTicket() == idTicket) {
+                System.out.println("[Erro] ID já cadastrado. Tente novamente.");
+                return; // Interrompe o método se o ID já estiver cadastrado
             }
         }
 
-        // Leitura e conversão das datas
-        System.out.print("Insira a data de início (yyyy-MM-dd): ");
-        Date dataInicio = Functions.recebeData();
-        System.out.print("Insira a data de fim (yyyy-MM-dd): ");
-        Date dataFim = Functions.recebeData();
-        //System.out.println("Data de Início: " + dataInicio);
-        //System.out.println("Data de Fim: " + dataFim);
-
+        // Verificar se o cliente existe
         System.out.print("Insira o ID do cliente: ");
         int idCliente = Functions.recebeInteiro();
-        System.out.print("Insira o tipo de cliente (Final/Revendedor): ");
-        String tipoCliente = Functions.recebeString();
+        Cliente cliente = null;
+        for (Cliente c : clientes) {
+            if (c.getId() == idCliente) {
+                cliente = c;
+                break;
+            }
+        }
+        if (cliente == null) {
+            System.out.println("[Erro] Cliente não encontrado.");
+            return; // Interrompe o método se o cliente não for encontrado
+        }
+
+        // Receber os dados do ticket
+        System.out.print("Data de início (dd-MM-yyyy): ");
+        Date dataInicio = Functions.recebeData();
+        System.out.print("Data de fim (dd-MM-yyyy): ");
+        Date dataFim = Functions.recebeData();
         System.out.print("Insira a descrição do histórico: ");
         String descHistorico = Functions.recebeString();
         System.out.print("Insira o valor dos serviços: ");
@@ -422,8 +430,11 @@ public class GestaoCT {
         System.out.print("Insira o valor das peças: ");
         double valorPecas = Functions.recebeDouble();
 
-        tickets.add(new Ticket(id, dataInicio, idCliente, tipoCliente, descHistorico, dataFim, valorServicos, valorPecas));
-        System.out.println("\n---> Ticket registado com sucesso.");
+        // Criar e adicionar o novo ticket
+        Ticket novoTicket = new Ticket(idTicket, cliente.getId(), dataInicio, dataFim, descHistorico, valorServicos, valorPecas, true);
+        tickets.add(novoTicket);
+        System.out.println("\n[Sucesso] Ticket registado com sucesso.");
+
     }
 
 
@@ -432,30 +443,49 @@ public class GestaoCT {
         System.out.print("Insira o ID do ticket: ");
         int id = Functions.recebeInteiro();
         boolean ticketEncontrado = false;
+        boolean resposta;
 
         for (Ticket ticket : tickets) {
             if (ticket.getIdTicket() == id) {
+                ticketEncontrado = true;
                 Menu.imprimeCabecalhoTickets();
                 System.out.println(ticket);
                 System.out.println("Deseja alterar o ticket? (S/N)");
-                // se nao, mostra menu
-                // se diz sim, então pede os novos dados que são os que estão abaxixo
+                resposta = Functions.validaSeN();
 
-                System.out.print("Insira a nova descrição do histórico: ");
-                String novoHistorico = Functions.recebeString();
-                ticket.setDescHistorico(novoHistorico);
-                ticketEncontrado = true;
+                if (resposta) {
+                    System.out.print("Insira a nova data de início (yyyy-MM-dd): ");
+                    Date novaDataIni = Functions.recebeData();
+                    ticket.setDataInicio(novaDataIni);
 
-                /*
-                *  Falta pedir esses dados!!!
-                    this.dataInicio = dataInicio;
-                    this.descHistorico = descHistorico;
-                    this.dataFim = dataFim;
-                    this.valorServicos = valorServicos;
-                    this.valorPecas = valorPecas;
-                    * */
-                System.out.println("Dados do ticket alterados com sucesso.");
-                break;
+                    System.out.println("Insira a nova descrição histórica: ");
+                    String novaDesc = Functions.recebeString();
+                    ticket.setDescHistorico(novaDesc);
+
+                    System.out.println("Insira a nova data de fim (yyyy-MM-dd): ");
+                    Date novaDataFim = Functions.recebeData();
+                    ticket.setDataFim(novaDataFim);
+
+                    System.out.println("Insira o novo valor dos serviços: ");
+                    double novoValorSer = Functions.recebeDouble();
+                    ticket.setValorServicos(novoValorSer);
+
+                    System.out.println("Insira o novo valor das peças: ");
+                    double novoValorPec = Functions.recebeDouble();
+                    ticket.setValorPecas(novoValorPec);
+
+                    System.out.println("Ticket está aberto? ");
+                    boolean aberto = Functions.validaSeN();
+                    if (!aberto) {
+                        ticket.setAberto(false);
+                    }
+
+                    System.out.println("\n[Sucesso] Dados do ticket alterados com sucesso.");
+                    break;
+                } else {
+                    System.out.println("[Aviso] Alteração cancelada.");
+                    return;
+                }
             }
         }
 
@@ -472,6 +502,7 @@ public class GestaoCT {
 
         boolean ticketEncontrado = false;
 
+        Menu.imprimeCabecalhoTickets();
         for (Ticket ticket : tickets) {
             if (ticket.getIdTicket() == id) {
                 System.out.println(ticket);
@@ -479,9 +510,10 @@ public class GestaoCT {
                 break;
             }
         }
+        Menu.imprimeFimTickets();
 
         if (!ticketEncontrado) {
-            System.out.println("ID do ticket não encontrado.");
+            System.out.println("Ticket com ID " + id + " não encontrado.");
         }
     }
 
@@ -495,6 +527,7 @@ public class GestaoCT {
             for (Ticket ticket : tickets) {
                 System.out.println(ticket);
             }
+            Menu.imprimeFimTickets();
         }
     }
 
@@ -513,7 +546,7 @@ public class GestaoCT {
         do {
             System.out.println("R - Relatório \nO - Orçamento \nP - Reparação \nT - Todos");
             System.out.print("Tipo de Ticket: ");
-            tipoTicket = Functions.recebeChar();//tec.nextLine().trim().toUpperCase().charAt(0);
+            tipoTicket = Functions.recebeChar();
         } while (tipoTicket != 'R' && tipoTicket != 'O' && tipoTicket != 'P' && tipoTicket != 'T');
 
         // Recebendo o intervalo de letras do nome do cliente
@@ -536,7 +569,7 @@ public class GestaoCT {
             if (ticket.getIdTicket() >= idInicial && ticket.getIdTicket() <= idFinal) {
                 boolean deveImprimir = false;
 
-                // Veri o tipo de ticket
+                // Verifica o tipo de ticket
                 switch (tipoTicket) {
                     case 'R':
                         if (ticket instanceof Relatorio) {
@@ -558,33 +591,39 @@ public class GestaoCT {
                         break;
                 }
 
-                // Verificando o tipo de cliente
                 if (deveImprimir) {
-                    switch (tipoCliente) {
-                        case 'F':
-                            if (ticket.getTipoCliente().equalsIgnoreCase("Final")) {
-                                deveImprimir = true;
-                            } else {
-                                deveImprimir = false;
-                            }
+                    // Verifica o tipo de cliente
+                    Cliente cliente = null;
+                    for (Cliente c : clientes) {
+                        if (c.getId() == ticket.getIdCliente()) {
+                            cliente = c;
                             break;
-                        case 'R':
-                            if (ticket.getTipoCliente().equalsIgnoreCase("Revendedor")) {
-                                deveImprimir = true;
-                            } else {
-                                deveImprimir = false;
-                            }
-                            break;
-                        case 'T':
-                            deveImprimir = true;
-                            break;
+                        }
                     }
-                }
 
-                // Verificando o intervalo de letras no nome do cliente
-                if (deveImprimir) {
-                    for (Cliente cliente : clientes) {
-                        if (cliente.getId() == ticket.getIdCliente()) {
+                    if (cliente != null) {
+                        switch (tipoCliente) {
+                            case 'F':
+                                if (cliente instanceof ClienteFinal) {
+                                    deveImprimir = true;
+                                } else {
+                                    deveImprimir = false;
+                                }
+                                break;
+                            case 'R':
+                                if (cliente instanceof ClienteRevendedor) {
+                                    deveImprimir = true;
+                                } else {
+                                    deveImprimir = false;
+                                }
+                                break;
+                            case 'T':
+                                deveImprimir = true;
+                                break;
+                        }
+
+                        // Verifica o intervalo de letras no nome do cliente
+                        if (deveImprimir) {
                             char letraCliente = cliente.getNome().trim().toUpperCase().charAt(0);
                             if (letraCliente >= letraInicial && letraCliente <= letraFinal) {
                                 System.out.println(ticket);
@@ -603,33 +642,33 @@ public class GestaoCT {
 
 
     // 36 - Consulta de tickets em aberto
-    // São considerados tickets em aberto aqueles de tipo Relatório e Orçamento
     private static void consultarTicketsAbertos() {
         if (tickets.isEmpty()) {
             System.out.println("Nenhum ticket registado.");
         } else {
             Menu.imprimeCabecalhoTickets();
             for (Ticket ticket : tickets) {
-                if (ticket instanceof Relatorio || ticket instanceof Orcamento) {
+                if (ticket.isAberto()) {
                     System.out.println(ticket);
                 }
             }
+            Menu.imprimeFimTickets();
         }
     }
 
 
-    // 37 - Consulta de tickets finalizados ******************************************
-    // São considerados tickets finalizados aqueles de tipo Reparação
-    private static void consultarTicketsFinalizados() {
+    // 37 - Consulta de tickets fechados
+    private static void consultarTicketsFechados() {
         if (tickets.isEmpty()) {
             System.out.println("Nenhum ticket registado.");
         } else {
             Menu.imprimeCabecalhoTickets();
             for (Ticket ticket : tickets) {
-                if (ticket instanceof Relatorio || ticket instanceof Orcamento) {
+                if (!ticket.isAberto()) {
                     System.out.println(ticket);
                 }
             }
+            Menu.imprimeFimTickets();
         }
     }
 
@@ -653,130 +692,125 @@ public class GestaoCT {
             return;
         }
 
-        if (ticketParaAlterar instanceof Relatorio) {
-            // Se for um Relatório
-            System.out.print("Deseja gerar uma Reparação? (S/N): ");
-            char resposta = Functions.recebeChar();
-            if (resposta == 'S') {
-                System.out.print("Insira o responsável pela reparação: ");
-                String responsavel = Functions.recebeString();
-            } else if (resposta == 'N') {
-                System.out.println("[Aviso] Alteração cancelada.");
-            } else {
-                System.out.println("[Erro] Resposta inválida.");
-            }
-        } else if (ticketParaAlterar instanceof Orcamento) {
-            boolean temReparacaoAssociada = false;
-            for (Ticket ticket : tickets) {
-                if (ticket instanceof Reparacao && ticket.getIdTicket() == id) {
-                    temReparacaoAssociada = true;
-                    break;
-                }
-            }
+        // Verifica em que tipo de subticket quer transformar
+        int resposta;
+        do {
+            System.out.print("Transformar ticket em: \n1 - Orçamento | 2 - Relatório | 3 - Reparação \nInsira sua resposta: ");
+            resposta = Functions.recebeInteiro();
 
-            if (temReparacaoAssociada) {
-                System.out.println("[Erro] Não é possível eliminar um Orçamento que tenha dado origem a uma Reparação.");
-            } else {
-                tickets.remove(ticketParaAlterar);
-                System.out.println("Orçamento eliminado com sucesso.");
+            switch (resposta) {
+                case 1:
+                    Menu.imprimeCabecalhoTickets();
+                    System.out.println(ticketParaAlterar);
+                    Menu.imprimeFimTickets();
+                    // Transformar em Orcamento
+                    System.out.print("O orçamento está aprovado? (S/N): ");
+                    boolean aprovado = Functions.validaSeN();
+
+                    tickets.add(new Orcamento(ticketParaAlterar.getIdTicket(), ticketParaAlterar.getIdCliente(), ticketParaAlterar.getDataInicio(), ticketParaAlterar.getDataFim(), ticketParaAlterar.getDescHistorico(), ticketParaAlterar.getValorServicos(), ticketParaAlterar.getValorPecas(), ticketParaAlterar.isAberto(), aprovado));
+                    System.out.println("\n[Sucesso] Ticket transformado em Orçamento com sucesso.");
+                    tickets.remove(ticketParaAlterar);
+                    break;
+
+                case 2:
+                    // Transformar em Relatório
+                    System.out.print("Insira o ID da apólice: ");
+                    int idApolice = Functions.recebeInteiro();
+                    System.out.print("Insira a companhia de seguro: ");
+                    String companhia = Functions.recebeString();
+                    System.out.print("Insira a cobertura: ");
+                    String cobertura = Functions.recebeString();
+                    System.out.print("Insira o contato do técnico: ");
+                    String contato = Functions.recebeString();
+                    System.out.print("Insira o email do técnico: ");
+                    String email = Functions.recebeString();
+
+                    tickets.add(new Relatorio(ticketParaAlterar.getIdTicket(), ticketParaAlterar.getIdCliente(), ticketParaAlterar.getDataInicio(), ticketParaAlterar.getDataFim(), ticketParaAlterar.getDescHistorico(), ticketParaAlterar.getValorServicos(), ticketParaAlterar.getValorPecas(), ticketParaAlterar.isAberto(), idApolice, companhia, cobertura, contato, email));
+                    System.out.println("\n[Sucesso] Ticket transformado em Relatório com sucesso.");
+                    break;
+
+                case 3:
+                    // Transformar em Reparação -> Orçamento ou Relatório podem dar origem a uma Reparação
+                    if (ticketParaAlterar instanceof Orcamento) {
+                        Orcamento orcamento = (Orcamento) ticketParaAlterar;
+
+                        if (!orcamento.isAprovado()) {
+                            System.out.print("[Aviso] É preciso aprovar o Orçamento antes de dar origem a uma Reparação. \nDeseja aprovar agora? (S/N): ");
+                            boolean respostaAprovacao = Functions.validaSeN();
+
+                            if (respostaAprovacao) {
+                                orcamento.setAprovado(true);
+                                orcamento.setAberto(false);
+                            } else {
+                                System.out.println("[Aviso] Operação cancelada.");
+                                return;
+                            }
+                        }
+
+                        tickets.add(new Reparacao(orcamento.getIdTicket(), orcamento.getIdCliente(), orcamento.getDataInicio(), orcamento.getDataFim(), orcamento.getDescHistorico(), orcamento.getValorServicos(), orcamento.getValorPecas(), orcamento.isAberto()));
+                        System.out.println("\n[Sucesso] Orçamento transformado em Reparação com sucesso.");
+                        tickets.remove(ticketParaAlterar);
+
+                    } else if (ticketParaAlterar instanceof Relatorio) {
+                        tickets.add(new Reparacao(ticketParaAlterar.getIdTicket(), ticketParaAlterar.getIdCliente(), ticketParaAlterar.getDataInicio(), ticketParaAlterar.getDataFim(), ticketParaAlterar.getDescHistorico(), ticketParaAlterar.getValorServicos(), ticketParaAlterar.getValorPecas(), ticketParaAlterar.isAberto()));
+                        System.out.println("\n[Sucesso] Relatório transformado em Reparação com sucesso.");
+
+                    } else
+                        System.out.println("[Erro] Apenas Orçamentos e Relatórios podem ser transformados em Reparações.");
+                    break;
+
+                default:
+                    System.out.println("[Erro] Opção inválida.");
+                    break;
             }
-        } else if (ticketParaAlterar instanceof Reparacao) {
-            if (ticketParaAlterar.getDataFim() == null) {
-                tickets.remove(ticketParaAlterar);
-                System.out.println("Reparação eliminada com sucesso.");
-            } else {
-                System.out.println("[Erro] Não é possível eliminar uma Reparação que já está fechada.");
-            }
-        } else {
-            System.out.println("[Erro] Tipo de ticket desconhecido.");
-        }
+        } while (resposta != 1 && resposta != 2 && resposta != 3);
     }
 
 
-    // 39 - Eliminar um ticket por ID
+    // 39 - Eliminar ticket por ID
     private static void eliminarTicketPorID() {
-        System.out.print("Insira o ID do ticket: ");
+        System.out.print("Insira o id do ticket a ser eliminado: ");
         int id = Functions.recebeInteiro();
-
-        boolean ticketEncontrado = false;
+        Ticket ticketParaEliminar = null;
 
         if (tickets.isEmpty()) {
-            System.out.println("Nenhum ticket registado.");
-        } else {
-            for (int i = 0; i < tickets.size(); i++) {
-                if (tickets.get(i).getIdTicket() == id) {
-                    tickets.remove(i);
-                    ticketEncontrado = true;
-                    System.out.println("Ticket removido com sucesso.");
-                    break;
-                }
-            }
-
+            System.out.println("[Aviso] Não há tickets registados.");
+            return;
         }
-
-        if (!ticketEncontrado) {
-            System.out.println("ID do ticket não encontrado.");
-        }
-    }
-
-
-    // ******ACHO QUE ESSE DAQUI VAI VIRAR PARTE DA CONSULTA PARAMETRIZADA (opção 35)******
-    // 47 Consultar tickets por tipo de cliente
-    /*private static void consultarTicketsPorCliente() {
-        System.out.print("Insira o tipo de cliente para consulta (Final/Revendedor): ");
-        String tipoCliente = tec.nextLine();
-        boolean ticketEncontrado = false;
 
         for (Ticket ticket : tickets) {
-            if (ticket.getTipoCliente().equalsIgnoreCase(tipoCliente)) {
-                System.out.println(ticket);
-                ticketEncontrado = true;
+            if (ticket.getIdTicket() == id) {
+                ticketParaEliminar = ticket;
+                break;
             }
         }
 
-        if (!ticketEncontrado) {
-            System.out.println("Nenhum ticket encontrado para o tipo de cliente especificado.");
+        if (ticketParaEliminar == null) {
+            System.out.println("[Aviso] Ticket com ID " + id + " não encontrado.");
+            return;
         }
-    }*/
+
+        // Só é possível eliminar um registo de reparação se não estiver fechado.
+        if (ticketParaEliminar instanceof Reparacao) {
+            if (ticketParaEliminar.isAberto()) {
+                System.out.println("[Aviso] Impossível excluir Ticket de Reparação enquanto aberto.");
+            } else {
+                tickets.remove(ticketParaEliminar);
+                System.out.println("[Sucesso] Reparação eliminada com sucesso.");
+            }
+        } else {
+            tickets.remove(ticketParaEliminar);
+            System.out.println("[Sucesso] Ticket eliminado com sucesso.");
+        }
 
 
-    /*// Backup dos clientes
-    public static void gravaClientes(ArrayList<Cliente> clientes, String nomeFicheiro) {
-        File f = new File(nomeFicheiro);
-        try {
-            f.createNewFile();              //Criar novo ficheiro
-            ObjectOutputStream ficheiro = new ObjectOutputStream(new FileOutputStream(nomeFicheiro));
-            ficheiro.writeObject(clientes); // Escrever o arrayList no ficheiro
-            System.out.println("Backup de clientes executado com sucesso ");
-            System.out.println("no ficheiro: " + f.getAbsolutePath());
-            ficheiro.flush();
-            ficheiro.close();
-        } catch (IOException e) {
-            e.printStackTrace();            // Se a operação der erro mostra o erro...
-        }
+        //Só é possível eliminar um relatório se não tiver dado origem a outro registo.
+        // Faltou tempo para implementar
+
+
+
+        //Só é possível eliminar um orçamento se não tiver dado origem a uma reparação.
+        // Faltou tempo para implementar
+
     }
-
-    @SuppressWarnings("unchecked")
-    public static ArrayList<Cliente> lerClientes(String nomeFicheiro) {
-        ArrayList<Cliente> clientes = new ArrayList<>();
-        File ficheiro = new File(nomeFicheiro);
-        if (!ficheiro.exists())
-            ficheiro = new File(nomeFicheiro);
-        else {
-            ObjectInputStream f;
-            try {
-                f = new ObjectInputStream(new FileInputStream(nomeFicheiro));
-                clientes = (ArrayList<Cliente>) f.readObject();
-                System.out.println("Restauro de dados realizado com sucesso.");
-            } catch (IOException e) {
-                System.out.println("Ficheiro: " + ficheiro.getAbsolutePath());
-                e.printStackTrace();            // Se a operação der erro mostra o erro...
-            } catch (ClassNotFoundException e) {
-                System.out.println("Ficheiro: " + ficheiro.getAbsolutePath());
-                e.printStackTrace();            // Se a operação der erro mostra o erro...
-            }
-
-        }
-        return clientes;
-    }*/
 }

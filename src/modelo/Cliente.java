@@ -8,16 +8,16 @@ public abstract class Cliente implements Serializable {
     private String nome;
     private String nif;
     private String telefone;
-    private String email;
+    //private String email;
 
     // Construtor para a classe Cliente
-    public Cliente(int id, String nome, String nif, String telefone, String email) {
+    public Cliente(int id, String nome, String nif, String telefone) {
         super();
         this.id = id;
         this.nome = nome;
         this.nif = nif;
         this.telefone = telefone;
-        this.email = email;
+        //this.email = email;
     }
 
     // Getters e Setters
@@ -45,16 +45,17 @@ public abstract class Cliente implements Serializable {
     public void setTelefone(String telefone) {
         this.telefone = telefone;
     }
-    public String getEmail() {
+    /*public String getEmail() {
         return email;
     }
     public void setEmail(String email) {
         this.email = email;
-    }
+    }*/
 
     @Override
     public String toString(){
-        return String.format("ID %d | Nome: %s | NIF: %s | Telefone: %s | Email: %s", id, nome, nif, telefone, email);
+        return String.format("%-13s | %-5s | %-25s | %-11s | %-13s | %-30s | %-15s | %-20s | %-20s%n",
+                id, nome, nif, telefone);
     }
 
 

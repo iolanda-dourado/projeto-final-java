@@ -1,5 +1,7 @@
 package visualizacao;
 
+import modelo.Cliente;
+
 public class Menu {
     public static void mostraMenu() {
         System.out.println("\n+=========================================================================+");
@@ -16,29 +18,33 @@ public class Menu {
         System.out.println("|   18 - Consultar com ticket fechado |   38 Alterar p/ Rel, Orç, Rep     |");
         System.out.println("|   19 - Eliminar Cliente por ID      |   39 Eliminar Ticket por ID       |");
         System.out.println("+--------------------------------------+--------------------------------- +");
-        System.out.println("|   40 - Restaurar dados                                                  |");
         System.out.println("|    0 - Sair                                                             |");
         System.out.println("+--------------------------------------+--------------------------------- +\n");
     }
-// CONSULTA PARAMETRIZADA CLIENTE:
-// por ID inicial ao ID final, por tipo de cliente (F, R), por letra inicial a letra final
-// Mostra tabela de acordo com as opções escolhidas
-
-
-// CONSULTA PARAMETRIZADA TICKET:
-// por ID inicial ao ID final, por tipo de ticket (Orç, Rel, Rep), por letra inicial a letra final, por tipo de cliente (F, R)
-// Mostra tabela de acordo com as opções escolhidas
 
 
     // Método para imprimir o cabeçalho dos clientes
     public static void imprimeCabecalhoClientes() {
-        System.out.printf("%-13s | %-5s | %-25s | %-11s | %-13s | %-30s | %-15s | %-20s | %-20s%n",
-                "Tipo Cliente", "ID", "Nome", "NIF", "Telefone", "Email", "% Desc. Peças", "% Desc. Mão Obra", "% Desc. Pronto Pgto");
+        System.out.println("+--------------+-------+---------------------------+-------------+---------------+------------+------------+------------+");
+        System.out.printf("%-14s | %-5s | %-25s | %-11s | %-13s | %-12s | %-10s | %-10s |",
+                "| Tipo Cliente", "ID", "Nome", "NIF", "Telefone", "% Desc PE", "% Desc. MO", "% Desc. PP");
+        System.out.println("\n+--------------+-------+---------------------------+-------------+---------------+------------+------------+------------+");
     }
 
+    public static void imprimeFimClientes() {
+        System.out.println("+--------------+-------+---------------------------+-------------+---------------+------------+------------+------------|");
+    }
+
+
     public static void imprimeCabecalhoTickets() {
-        System.out.printf("%-5s | %-14s | %-29s | %-29s | %-11s | %-11s | %-10s%n",
-                "ID", "Tipo Cliente", "Data Início", "Data Fim", "Descrição", "Val Serviço", "Val Peças");
+        System.out.println("+-------+--------+-------------+-------------+--------------------------------+-------------+-------------+----------+--------------+------------+--------------+-----------+------------+-------------------+");
+        System.out.printf("| %-5s | %-6s | %-11s | %-11s | %-30s | %-10s | %-10s | %-8s | %-12s | %-10s | %-12s | %-9s | %-10s | %-17s |%n",
+                "ID", "ID Cli", "Data Início", "Data Fim", "Histórico", "Valor Serv.", "Valor Peças", "Status", "Tipo", "Aprovado", "Cia Seguro", "Cobertura", "Contato", "Email");
+        System.out.println("+-------+--------+-------------+-------------+--------------------------------+-------------+-------------+----------+--------------+------------+--------------+-----------+------------+-------------------+");
+    }
+
+    public static void imprimeFimTickets() {
+        System.out.println("+-------+--------+-------------+-------------+--------------------------------+-------------+-------------+----------+--------------+------------+--------------+-----------+------------+-------------------+");
     }
 
 }

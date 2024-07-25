@@ -35,6 +35,19 @@ public class Functions {
         }
     }
 
+    public static boolean validaSeN() {
+        while (true) {
+            char resposta = Functions.recebeChar();
+            if (resposta == 'S') {
+                return true;
+            } else if (resposta == 'N') {
+                return false;
+            } else {
+                System.out.print("[Erro] Resposta inválida. \nPor favor, insira novamente: ");
+            }
+        }
+    }
+
 
     public static int recebeInteiro() {
         while (true) {

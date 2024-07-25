@@ -7,8 +7,8 @@ public class ClienteRevendedor extends Cliente implements Serializable {
     private double descontoPecas;
     private double descontoMaoObra;
 
-    public ClienteRevendedor(int id, String nome, String nif, String telefone, String email, double descontoMaoObra, double descontoPecas) {
-        super(id, nome, nif, telefone, email);
+    public ClienteRevendedor(int id, String nome, String nif, String telefone, double descontoMaoObra, double descontoPecas) {
+        super(id, nome, nif, telefone);
         this.descontoMaoObra = descontoMaoObra;
         this.descontoPecas = descontoPecas;
     }
@@ -31,8 +31,8 @@ public class ClienteRevendedor extends Cliente implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("%-13s | %-5s | %-25s | %-11s | %-13s | %-30s | %-15.2f | %-20s | %-20s",
-                "Revendedor", getId(), getNome(), getNif(), getTelefone(), getEmail(),
+        return String.format("%-14s | %-5s | %-25s | %-11s | %-13s | %-10s | %-10s | %-10s",
+                "| Revendedor", getId(), getNome(), getNif(), getTelefone(),
                 getDescontoPecas() * 100, getDescontoMaoObra() * 100, "0.0");
     }
 }
